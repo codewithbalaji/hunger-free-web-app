@@ -1,11 +1,9 @@
-import {
-  Button,
-  ChakraProvider,
-  background,
-  extendTheme,
-} from "@chakra-ui/react";
+import { ChakraProvider, extendTheme } from "@chakra-ui/react";
 import { RouterProvider } from "react-router-dom";
 import { router } from "lib/routes";
+import Loader from "components/loader/Loader";
+import { useEffect, useState } from "react";
+
 
 const theme = extendTheme({
   colors: {
@@ -25,7 +23,19 @@ const theme = extendTheme({
 });
 
 export default function App() {
-  return (
+  const [isLoading, setIsLoading] = useState(true);
+useEffect(() => {
+  const fakeDataFetch = () => {
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 4000);
+  };
+
+  fakeDataFetch();
+}, []);
+  return isLoading ? (
+    <Loader />
+  ) : (
     <ChakraProvider theme={theme}>
       <RouterProvider router={router} />
     </ChakraProvider>

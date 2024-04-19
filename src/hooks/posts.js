@@ -21,13 +21,15 @@ export function useAddPost() {
   const [isLoading, setLoading] = useState(false);
   const toast = useToast();
 
-  async function addPost(post) {
+  async function addPost(post, url) {
     setLoading(true);
     const id = uuidv4();
     await setDoc(doc(db, "posts", id), {
       ...post,
       id,
       date: Date.now(),
+      image: url,
+      
     });
     toast({
       title: "Post added successfully!",

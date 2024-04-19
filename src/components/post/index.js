@@ -3,7 +3,8 @@ import Header from "./Header";
 import Actions from "./Actions";
 
 export default function Post({ post }) {
-  const { text } = post;
+  // Destructuring text and image from post
+  const { text, image } = post;
 
   return (
     <Box p="2" maxW="600px" textAlign="left">
@@ -11,9 +12,19 @@ export default function Post({ post }) {
         <Header post={post} />
 
         <Box p="2" minH="100px">
-          <Text wordBreak="break-word" fontSize="md">
-            {text}
-          </Text>
+          {/* Rendering text content */}
+          {text && (
+            <Text wordBreak="break-word" fontSize="md">
+              {text}
+            </Text>
+          )}
+
+          {/* Rendering image if available */}
+          {image && (
+            <Box objectFit='cover'>
+              <img src={image} alt="Post" />
+            </Box>
+          )}
         </Box>
 
         <Actions post={post} />

@@ -9,7 +9,9 @@ export default function Navbar() {
   return (
     <Flex
       shadow="sm"
-      pos="fixed"
+     position="fixed"
+      left="0"
+      right="0"
       width="full"
       borderTop="6px solid"
       borderTopColor="#ff5800"

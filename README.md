@@ -25,8 +25,8 @@ Here is a preview of our WEB-APP for our amazing platform!
 
 1. Clone the repository to your local machine.
 2. Navigate to the project directory in your terminal.
-5. In the terminal, run `yarn install` to install frontend dependencies.
-6. Once dependencies are installed, run `yarn start` frontend directories to start the development servers.
+5. In the terminal, run `npm install` to install frontend dependencies.
+6. Once dependencies are installed, run `npm start` frontend directories to start the development servers.
 
 
 

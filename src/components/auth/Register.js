@@ -1,125 +1,103 @@
-import {
-  Box,
-  Button,
-  Center,
-  FormControl,
-  FormErrorMessage,
-  FormLabel,
-  Heading,
-  Input,
-  Link,
-  Select, // Add Select component
-  Text,
-} from "@chakra-ui/react";
-import { DASHBOARD, LOGIN } from "lib/routes";
-import { Link as RouterLink } from "react-router-dom";
-import { useRegister } from "hooks/auth";
-import { useForm } from "react-hook-form";
-import {
-  emailValidate,
-  passwordValidate,
-  usernameValidate,
-} from "utils/form-validate";
+import { useState } from 'react';
+import { Button, Container, Form, FormControl, FormGroup, FormLabel, Row, Col, Alert } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
+import { useRegister } from 'hooks/auth';
+import { useForm } from 'react-hook-form';
+import { emailValidate, passwordValidate, usernameValidate } from 'utils/form-validate';
+import { DASHBOARD, LOGIN } from 'lib/routes';
 
 export default function Register() {
   const { register: signup, isLoading } = useRegister();
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors }
   } = useForm();
 
+  const [registerError, setRegisterError] = useState(null);
+
   async function handleRegister(data) {
-    signup({
-      username: data.username,
-      email: data.email,
-      password: data.password,
-      role: data.role, // Include role in signup data
-      redirectTo: DASHBOARD,
-    });
+    try {
+      await signup({
+        username: data.username,
+        email: data.email,
+        password: data.password,
+        role: data.role,
+        redirectTo: DASHBOARD
+      });
+    } catch (error) {
+      setRegisterError(error.message);
+    }
   }
 
   return (
-    <Center w="100%" h="100vh">
-      <Box mx="1" maxW="md" p="9" borderWidth="1px" borderRadius="lg">
-        <Heading mb="4" size="lg" textAlign="center">
-          Register
-        </Heading>
+    <Container className="d-flex align-items-center justify-content-center" style={{ minHeight: '100vh' }}>
+      <Row className="justify-content-center">
+        <Col >
+          <div className="p-4 border rounded">
+            <h2 className="mb-4 text-center">Register</h2>
 
-        <form onSubmit={handleSubmit(handleRegister)}>
-          <FormControl isInvalid={errors.username} py="2">
-            <FormLabel>Username</FormLabel>
-            <Input
-              placeholder="username"
-              {...register("username", usernameValidate)}
-            />
-            <FormErrorMessage>
-              {errors.username && errors.username.message}
-            </FormErrorMessage>
-          </FormControl>
-          <FormControl isInvalid={errors.email} py="2">
-            <FormLabel>Email</FormLabel>
-            <Input
-              type="email"
-              placeholder="user@email.com"
-              {...register("email", emailValidate)}
-            />
-            <FormErrorMessage>
-              {errors.email && errors.email.message}
-            </FormErrorMessage>
-          </FormControl>
-          <FormControl isInvalid={errors.password} py="2">
-            <FormLabel>Password</FormLabel>
-            <Input
-              type="password"
-              placeholder="password123"
-              {...register("password", passwordValidate)}
-            />
-            <FormErrorMessage>
-              {errors.password && errors.password.message}
-            </FormErrorMessage>
-          </FormControl>
-          <FormControl isInvalid={errors.role} py="2">
-            <FormLabel>Role</FormLabel>
-            <Select
-              placeholder="Select role"
-              {...register("role", { required: "Role is required" })}
-            >
-              <option value="volunteer">Volunteer</option>
-              <option value="contributor">Contributor</option>
-            </Select>
-            <FormErrorMessage>
-              {errors.role && errors.role.message}
-            </FormErrorMessage>
-          </FormControl>
-          <Button
-            mt="4"
-            type="submit"
-            colorScheme="teal"
-            size="md"
-            w="full"
-            isLoading={isLoading}
-            loadingText="Signing Up"
-          >
-            Register
-          </Button>
-        </form>
+            {registerError && <Alert variant="danger">{registerError}</Alert>}
 
-        <Text fontSize="xlg" align="center" mt="6">
-          Already have an account?{" "}
-          <Link
-            as={RouterLink}
-            to={LOGIN}
-            color="teal.800"
-            fontWeight="medium"
-            textDecor="underline"
-            _hover={{ background: "teal.100" }}
-          >
-            Log In
-          </Link>{" "}
-          instead!
-        </Text>
-      </Box>
-    </Center>
+            <Form onSubmit={handleSubmit(handleRegister)}>
+              <FormGroup className="py-2">
+                <FormLabel>Username</FormLabel>
+                <FormControl
+                  placeholder="username"
+                  {...register("username", usernameValidate)}
+                />
+                {errors.username && <Form.Text className="text-danger">{errors.username.message}</Form.Text>}
+              </FormGroup>
+              <FormGroup className="py-2">
+                <FormLabel>Email</FormLabel>
+                <FormControl
+                  type="email"
+                  placeholder="user@email.com"
+                  {...register("email", emailValidate)}
+                />
+                {errors.email && <Form.Text className="text-danger">{errors.email.message}</Form.Text>}
+              </FormGroup>
+              <FormGroup className="py-2">
+                <FormLabel>Password</FormLabel>
+                <FormControl
+                  type="password"
+                  placeholder="password123"
+                  {...register("password", passwordValidate)}
+                />
+                {errors.password && <Form.Text className="text-danger">{errors.password.message}</Form.Text>}
+              </FormGroup>
+              <FormGroup className="py-2">
+                <FormLabel>Role</FormLabel>
+                <FormControl
+                  as="select"
+                  {...register("role", { required: "Role is required" })}
+                >
+                  <option value="volunteer">Volunteer</option>
+                  <option value="contributor">Contributor</option>
+                </FormControl>
+                {errors.role && <Form.Text className="text-danger">{errors.role.message}</Form.Text>}
+              </FormGroup>
+              <Button
+                className="mt-4"
+                variant="primary"
+                type="submit"
+                size="md"
+                disabled={isLoading}
+              >
+                {isLoading ? 'Signing Up' : 'Register'}
+              </Button>
+            </Form>
+
+            <p className="text-center mt-4">
+              Already have an account?{' '}
+              <Link to={LOGIN} className="text-decoration-none fw-medium text-primary">
+                Log In
+              </Link>{' '}
+              instead!
+            </p>
+          </div>
+        </Col>
+      </Row>
+    </Container>
   );
 }

@@ -1,46 +1,46 @@
-import { Flex, IconButton } from "@chakra-ui/react";
-import { useAuth } from "hooks/auth";
-import { FaComment, FaRegComment, FaTrash } from "react-icons/fa";
-import { useDeletePost } from "hooks/posts";
-import { Link } from "react-router-dom";
-import { PROTECTED } from "lib/routes";
-import { useComments } from "hooks/comments";
+import React from 'react';
+import { Link } from 'react-router-dom';
+import { PROTECTED } from 'lib/routes';
+import { FaComment, FaRegComment, FaTrash } from 'react-icons/fa';
+import { Button, Spinner } from 'react-bootstrap';
+import { useAuth } from 'hooks/auth';
+import { useDeletePost } from 'hooks/posts';
+import { useComments } from 'hooks/comments';
 
 export default function Actions({ post }) {
   const { id, uid } = post;
   const { user, isLoading: userLoading } = useAuth();
-
   const { deletePost, isLoading: deleteLoading } = useDeletePost(id);
   const { comments, isLoading: commentsLoading } = useComments(id);
 
   return (
-    <Flex p="2">
-      <Flex alignItems="center" ml="2">
-        <IconButton
+    <div className="p-2 d-flex">
+      <div className="d-flex align-items-center ms-2">
+        <Button
           as={Link}
           to={`${PROTECTED}/comments/${id}`}
-          isLoading={commentsLoading}
           size="md"
-          colorScheme="teal"
-          variant="ghost"
-          icon={comments?.length === 0 ? <FaRegComment /> : <FaComment />}
-          isRound
-        />
-        {comments?.length}
-      </Flex>
+          variant="outline-teal"
+          className="rounded-circle"
+          disabled={commentsLoading}
+        >
+          {commentsLoading ? <Spinner animation="border" size="sm" /> : (comments?.length === 0 ? <FaRegComment /> : <FaComment />)}
+        </Button>
+        <span>{comments?.length}</span>
+      </div>
 
       {!userLoading && user.id === uid && (
-        <IconButton
-          ml="auto"
+        <Button
+          className="ms-auto"
           onClick={deletePost}
-          isLoading={deleteLoading}
           size="md"
-          colorScheme="red"
-          variant="ghost"
-          icon={<FaTrash />}
-          isRound
-        />
+          variant="outline-danger"
+          disabled={deleteLoading}
+          style={{ borderRadius: '50%' }}
+        >
+          {deleteLoading ? <Spinner animation="border" size="sm" /> : <FaTrash />}
+        </Button>
       )}
-    </Flex>
+    </div>
   );
 }

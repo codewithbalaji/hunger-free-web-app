@@ -1,18 +1,17 @@
-import { Box, Text } from "@chakra-ui/react";
-import Post from "./index";
-
-
+import React from 'react';
+import { Container } from 'react-bootstrap';
+import Post from './index';
 
 export default function PostsList({ posts }) {
   return (
-    <Box px="4" align="center">
+    <Container className="px-4 d-flex flex-column align-items-center">
       {posts?.length === 0 ? (
-        <Text textAlign="center" fontSize="xl">
+        <p className="text-center fs-2">
           No contribution Yet....
-        </Text>
+        </p>
       ) : (
         posts?.map((post) => <Post key={post.id} post={post} />)
       )}
-    </Box>
+    </Container>
   );
 }

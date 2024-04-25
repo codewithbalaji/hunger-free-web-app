@@ -1,4 +1,5 @@
-import { Box, Text } from "@chakra-ui/react";
+import React from 'react';
+import { Container } from 'react-bootstrap';
 import Header from "./Header";
 import Actions from "./Actions";
 
@@ -7,28 +8,28 @@ export default function Post({ post }) {
   const { text, image } = post;
 
   return (
-    <Box p="2" maxW="600px" textAlign="left">
-      <Box border="2px solid" borderColor="gray.100" borderRadius="md">
+    <Container className="p-2" style={{ maxWidth: "600px", textAlign: "left" }}>
+      <div className="border border-2 border-gray rounded-md">
         <Header post={post} />
 
-        <Box p="2" minH="100px">
+        <div className="p-2" style={{ minHeight: "100px" }}>
           {/* Rendering text content */}
           {text && (
-            <Text wordBreak="break-word" fontSize="md">
+            <p className="word-break-break-word fs-md">
               {text}
-            </Text>
+            </p>
           )}
 
           {/* Rendering image if available */}
           {image && (
-            <Box objectFit='cover'>
+            <div style={{ objectFit: 'cover' }}>
               <img src={image} alt="Post" />
-            </Box>
+            </div>
           )}
-        </Box>
+        </div>
 
         <Actions post={post} />
-      </Box>
-    </Box>
+      </div>
+    </Container>
   );
 }

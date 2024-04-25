@@ -1,8 +1,8 @@
-import { Box, Flex, Text } from "@chakra-ui/react";
-import Avatar from "components/profile/Avatar";
-import { useUser } from "hooks/users";
-import { formatDistanceToNow } from "date-fns";
-import UsernameButton from "components/profile/UsernameButton";
+import React from 'react';
+import Avatar from 'components/profile/Avatar';
+import { useUser } from 'hooks/users';
+import { formatDistanceToNow } from 'date-fns';
+import UsernameButton from 'components/profile/UsernameButton';
 
 export default function Header({ post }) {
   const { uid, date } = post;
@@ -11,21 +11,15 @@ export default function Header({ post }) {
   if (isLoading) return "Loading...";
 
   return (
-    <Flex
-      alignItems="center"
-      borderBottom="2px solid"
-      borderColor="#ff5800"
-      p="3"
-      bg="gray.50"
-    >
+    <div className="d-flex align-items-center border-bottom border-2 border-orange p-3 bg-light">
       <Avatar user={user} size="md" />
 
-      <Box ml="4">
-        <UsernameButton  user={user} />
-        <Text fontSize="sm" color="gray.500">
+      <div className="ms-4">
+        <UsernameButton user={user} />
+        <p className="fs-sm text-secondary">
           {formatDistanceToNow(date)} ago
-        </Text>
-      </Box>
-    </Flex>
+        </p>
+      </div>
+    </div>
   );
 }

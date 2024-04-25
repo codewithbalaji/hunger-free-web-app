@@ -242,3 +242,11 @@ img {
     margin-right: auto;
   }
 }
+
+/* carousel */
+
+@media (max-width: 767px) {
+  .carousel-image {
+    height: 250px; /* Adjusted height for mobile screens */
+  }
+}

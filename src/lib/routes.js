@@ -11,6 +11,7 @@ import Profile from 'components/profile';
 import Users from 'components/users';
 import RenderPost from 'components/renderpost/RenderPost';
 import Hero from 'components/Hero/Hero';
+import ProfilePage from 'components/layout/ProfilePage';
 
 export const ROOT = '/';
 export const LOGIN = '/login';
@@ -23,6 +24,7 @@ export const PROFILE = '/protected/profile/:id';
 export const COMMENTS = '/protected/comments/:id';
 export const RENDER_POST = '/protected/posts'; // Changed variable name to match the import
 export const HERO = '/protected/hero'; 
+export const PROFILE_PAGE = '/protected/profilepage'; 
 
 export const router = createBrowserRouter([
   { path: ROOT, element: <Home /> },
@@ -55,6 +57,10 @@ export const router = createBrowserRouter([
       {
         path: HERO, // Using the variable for the path
         element: <Hero />, // Using the RenderPost component
+      },
+      {
+        path: PROFILE_PAGE, // Using the variable for the path
+        element: <ProfilePage/>, // Using the RenderPost component
       },
     ],
   },

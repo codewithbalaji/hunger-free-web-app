@@ -1,8 +1,8 @@
 import React from 'react';
 import { Container } from 'react-bootstrap';
-import img1 from "assets/donate.jpg";
-import img2 from "assets/web.png";
-import img3 from "assets/about.png";
+import img1 from "assets/home3.png";
+import img2 from "assets/home2.png";
+import img3 from "assets/home1.png";
 import { Link, Link as RouterLink} from "react-router-dom";
 import { DASHBOARD } from "lib/routes";
 

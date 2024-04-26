@@ -18,7 +18,7 @@ import { storage } from "lib/firebase";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { v4 } from "uuid";
 import { useToast } from "@chakra-ui/react";
-import TimePicker from "react-time-picker";
+import { TimePicker } from "antd";
 
 function NewPost() {
   const { register, handleSubmit, reset,  watch } = useForm();
@@ -67,7 +67,7 @@ function NewPost() {
         uid: user.id,
         text: data.text,
         foodQuantity: data.foodQuantity,
-        cookedTime: cookedTime,
+        cookedTime: cookedTimeString,
         currentLocation: currentLocation,
         address: data.address,
       },
@@ -95,6 +95,11 @@ function NewPost() {
     setCurrentLocation(mapsLink)
     console.log(currentLocation)
   }
+
+  const cookedTimeString = cookedTime ? cookedTime.format("h:mm a") : "";
+
+
+  console.log(cookedTimeString)
 
   return (
     <Container className="py-5">
@@ -126,14 +131,14 @@ function NewPost() {
           />
         </FormGroup>
         <FormGroup className="mb-3">
-          <label htmlFor="cookedTime" className="form-label">
+          <label htmlFor="cookedTime" className="form-label me-2">
             Cooked Time:
           </label>
           <TimePicker
             onChange={setCookedTime}
             value={cookedTime}
-            clearIcon={null}
             disableClock={true}
+            format="h:mm a"
           />
         </FormGroup>
         <FormGroup className="mb-3">
@@ -152,7 +157,9 @@ function NewPost() {
           <div className="">
             <button
               className="btn btn-primary"
-              onClick={() => {
+              
+              onClick={(e) => {
+                e.preventDefault();
                 getLocation(); // Call getLocation when the button is clicked
               }}
             >
@@ -187,7 +194,7 @@ function NewPost() {
             </Container>
           </ModalBody>
           <ModalFooter className="justify-content-center">
-            <ButtonGroup>
+            <ButtonGroup style={{ gap: '10px' }} >
               <Button
                 variant="outline-success"
                 onClick={() => {

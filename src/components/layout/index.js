@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "hooks/auth";
 import Navbar from "components/layout/Navbar";
+import Swal from "sweetalert2";
 
 
 
@@ -17,7 +18,21 @@ export default function Layout() {
     }
   }, [pathname, user, isLoading]);
 
-  if (isLoading) return "Loading auth user...";
+    if (isLoading) {
+      Swal.fire({
+        title: 'Loading auth user...',
+        html: 'Please wait...',
+        allowEscapeKey: false,
+        allowOutsideClick: false,
+        didOpen: () => {
+          Swal.showLoading();
+        }
+      });
+    } else {
+      Swal.close();
+    }
+
+
 
   return (
     <>

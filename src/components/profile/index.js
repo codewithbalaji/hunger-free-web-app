@@ -21,6 +21,8 @@ export default function Profile() {
 
   if (userLoading) return "Loading...";
 
+  
+
   return (
     <div className="container my-5">
       <div className="row align-items-center">

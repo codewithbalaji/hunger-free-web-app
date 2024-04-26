@@ -4,6 +4,7 @@ import { Modal, Button, Form} from 'react-bootstrap';
 import { useAuth } from 'hooks/auth';
 import { useUpdateAvatar } from 'hooks/users';
 import Avatar from './Avatar';
+import Swal from 'sweetalert2';
 
 export default function EditProfile({ isOpen, onClose }) {
   const { user, isLoading: authLoading } = useAuth();
@@ -23,7 +24,20 @@ export default function EditProfile({ isOpen, onClose }) {
   }
 
 
-  if (authLoading) return 'Loading...';
+
+  if (authLoading) {
+    Swal.fire({
+      title: 'Loading settings...',
+      html: 'Please wait...',
+      allowEscapeKey: false,
+      allowOutsideClick: false,
+      didOpen: () => {
+        Swal.showLoading();
+      }
+    });
+  } else {
+    Swal.close();
+  }
 
   return (
     <Modal show={isOpen} onHide={onClose}>

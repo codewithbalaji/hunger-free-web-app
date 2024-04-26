@@ -16,19 +16,18 @@ import { useForm } from "react-hook-form";
 import TextareaAutosize from "react-textarea-autosize";
 import { storage } from "lib/firebase";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
-import { v4 } from "uuid";
-import { useToast } from "@chakra-ui/react";
+import { v4 as uuidv4 } from "uuid";
 import { TimePicker } from "antd";
+import Swal from "sweetalert2";
 
 function NewPost() {
-  const { register, handleSubmit, reset,  watch } = useForm();
+  const { register, handleSubmit, reset, watch } = useForm();
   const { addPost, isLoading: addingPost } = useAddPost();
   const { user, isLoading: authLoading } = useAuth();
-  const [img, setImg] = useState("");
+  const [img, setImg] = useState(null);
   const [url, setUrl] = useState("");
   const [currentLocation, setCurrentLocation] = useState(""); // State for current location checkbox
   const [cookedTime, setCookedTime] = useState(""); // State for cooked time
-  const toast = useToast();
   const [isOpen, setIsOpen] = useState(false);
   const foodQuantity = watch("foodQuantity"); // Watch foodQuantity for changes
 
@@ -36,29 +35,40 @@ function NewPost() {
   const onOpen = () => setIsOpen(true);
 
   const handleClick = async () => {
-    if (img === "") {
-      toast({
+    if (!img) {
+      Swal.fire({
+        icon: "error",
         title: "Select an image to upload!",
-        status: "error",
-        isClosable: true,
+        showConfirmButton: false,
+        timer: 5000,
         position: "top",
-        duration: 5000,
       });
       return;
     }
-    const imgRef = ref(storage, `files/${v4()}`);
-    await uploadBytes(imgRef, img);
-    const imgURL = await getDownloadURL(imgRef);
-    console.log(imgURL);
-    setUrl(imgURL);
-    toast({
-      title: "Image Uploaded!",
-      status: "success",
-      isClosable: true,
-      position: "top",
-      duration: 5000,
-    });
-    setImg("");
+
+    try {
+      const imgRef = ref(storage, `files/${uuidv4()}`);
+      await uploadBytes(imgRef, img);
+      const imgURL = await getDownloadURL(imgRef);
+      setUrl(imgURL);
+      Swal.fire({
+        icon: "success",
+        title: "Image Uploaded!",
+        showConfirmButton: false,
+        timer: 2000,
+        position: "top",
+      });
+      setImg(null);
+    } catch (error) {
+      console.error("Error uploading image: ", error);
+      Swal.fire({
+        icon: "error",
+        title: "Error uploading image",
+        showConfirmButton: false,
+        timer: 5000,
+        position: "top",
+      });
+    }
   };
 
   function handleAddPost(data) {
@@ -67,7 +77,7 @@ function NewPost() {
         uid: user.id,
         text: data.text,
         foodQuantity: data.foodQuantity,
-        cookedTime: cookedTimeString,
+        cookedTime: cookedTime,
         currentLocation: currentLocation,
         address: data.address,
       },
@@ -83,7 +93,13 @@ function NewPost() {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(showPosition);
     } else {
-      alert("Geolocation is not supported by this browser.");
+      Swal.fire({
+        icon: "error",
+        title: "Geolocation is not supported by this browser.",
+        showConfirmButton: false,
+        timer: 5000,
+        position: "top",
+      });
     }
   }
 
@@ -92,14 +108,10 @@ function NewPost() {
     const latitude = position.coords.latitude;
     const longitude = position.coords.longitude;
     const mapsLink = `https://www.google.com/maps/place/${latitude},${longitude}`;
-    setCurrentLocation(mapsLink)
-    console.log(currentLocation)
+    setCurrentLocation(mapsLink);
   }
 
   const cookedTimeString = cookedTime ? cookedTime.format("h:mm a") : "";
-
-
-  console.log(cookedTimeString)
 
   return (
     <Container className="py-5">
@@ -157,7 +169,6 @@ function NewPost() {
           <div className="">
             <button
               className="btn btn-primary"
-              
               onClick={(e) => {
                 e.preventDefault();
                 getLocation(); // Call getLocation when the button is clicked
@@ -194,14 +205,14 @@ function NewPost() {
             </Container>
           </ModalBody>
           <ModalFooter className="justify-content-center">
-            <ButtonGroup style={{ gap: '10px' }} >
+            <ButtonGroup style={{ gap: "10px" }}>
               <Button
                 variant="outline-success"
                 onClick={() => {
                   handleClick();
                   onClose();
                 }}
-                disabled={img !== "" && addingPost}
+                disabled={img !== null && addingPost}
               >
                 Save
               </Button>

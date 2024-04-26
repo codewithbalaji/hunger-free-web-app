@@ -1,4 +1,4 @@
-import { SimpleGrid } from "@chakra-ui/react";
+import { Container, Row, Col } from "react-bootstrap";
 import { useUsers } from "hooks/users";
 import User from "./User";
 
@@ -8,10 +8,14 @@ export default function Users() {
   if (isLoading) return "Loading...";
 
   return (
-    <SimpleGrid columns={[2, 3, 4]} spacing={[2, 3]} px="10px" py="6">
-      {users?.map((user) => (
-        <User key={user.id} user={user} />
-      ))}
-    </SimpleGrid>
+    <Container fluid>
+      <Row xs={2} md={3} lg={4} xl={4} xxl={4} className="g-2 g-md-3 px-2 py-6">
+        {users?.map((user) => (
+          <Col key={user.id}>
+            <User user={user} />
+          </Col>
+        ))}
+      </Row>
+    </Container>
   );
 }

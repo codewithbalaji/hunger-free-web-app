@@ -1,3 +1,4 @@
+import Swal from 'sweetalert2';
 import {
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
@@ -6,7 +7,6 @@ import { useAuthState, useSignOut } from "react-firebase-hooks/auth";
 import { auth, db } from "lib/firebase";
 import { useEffect, useState } from "react";
 import { DASHBOARD, LOGIN } from "lib/routes";
-import { useToast } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import { setDoc, doc, getDoc } from "firebase/firestore";
 import isUsernameExists from "utils/isUsernameExists";
@@ -36,7 +36,6 @@ export function useAuth() {
 
 export function useLogin() {
   const [isLoading, setLoading] = useState(false);
-  const toast = useToast();
   const navigate = useNavigate();
 
   async function login({ email, password, redirectTo = DASHBOARD }) {
@@ -44,24 +43,20 @@ export function useLogin() {
 
     try {
       await signInWithEmailAndPassword(auth, email, password);
-      toast({
-        title: "You are logged in",
-        status: "success",
-        isClosable: true,
-        position: "top",
-        duration: 5000,
+      Swal.fire({
+        icon: 'success',
+        title: 'You are logged in',
+        showConfirmButton: false,
+        timer: 2000
+      }).then(() => {
+        navigate(redirectTo);
       });
-      navigate(redirectTo);
     } catch (error) {
-      toast({
-        title: "Logging in failed",
-        description: error.message,
-        status: "error",
-        isClosable: true,
-        position: "top",
-        duration: 5000,
+      Swal.fire({
+        icon: 'error',
+        title: 'Logging in failed',
+        text: error.message,
       });
-      setLoading(false);
     } finally {
       setLoading(false);
     }
@@ -72,14 +67,13 @@ export function useLogin() {
 
 export function useRegister() {
   const [isLoading, setLoading] = useState(false);
-  const toast = useToast();
   const navigate = useNavigate();
 
   async function register({
     username,
     email,
     password,
-    role, // Add role parameter
+    role,
     redirectTo = DASHBOARD,
   }) {
     setLoading(true);
@@ -87,45 +81,37 @@ export function useRegister() {
     const usernameExists = await isUsernameExists(username);
 
     if (usernameExists) {
-      toast({
-        title: "Username already exists",
-        status: "error",
-        isClosable: true,
-        position: "top",
-        duration: 5000,
+      Swal.fire({
+        icon: 'error',
+        title: 'Username already exists',
       });
       setLoading(false);
     } else {
       try {
         const res = await createUserWithEmailAndPassword(auth, email, password);
 
-        // Store user data in Firestore including the role
         await setDoc(doc(db, "users", res.user.uid), {
           id: res.user.uid,
           username: username.toLowerCase(),
           avatar: "",
           date: Date.now(),
-          role: role // Include the role in the document
+          role: role
         });
 
-        toast({
-          title: "Account created",
-          description: "You are logged in",
-          status: "success",
-          isClosable: true,
-          position: "top",
-          duration: 5000,
+        Swal.fire({
+          icon: 'success',
+          title: 'Account created',
+          text: 'You are logged in',
+          showConfirmButton: false,
+          timer: 2000
+        }).then(() => {
+          navigate(redirectTo);
         });
-
-        navigate(redirectTo);
       } catch (error) {
-        toast({
-          title: "Signing Up failed",
-          description: error.message,
-          status: "error",
-          isClosable: true,
-          position: "top",
-          duration: 5000,
+        Swal.fire({
+          icon: 'error',
+          title: 'Signing Up failed',
+          text: error.message,
         });
       } finally {
         setLoading(false);
@@ -138,20 +124,24 @@ export function useRegister() {
 
 export function useLogout() {
   const [signOut, isLoading, error] = useSignOut(auth);
-  const toast = useToast();
   const navigate = useNavigate();
 
   async function logout() {
     if (await signOut()) {
-      toast({
-        title: "Successfully logged out",
-        status: "success",
-        isClosable: true,
-        position: "top",
-        duration: 5000,
+      Swal.fire({
+        icon: 'success',
+        title: 'Successfully logged out',
+        showConfirmButton: false,
+        timer: 2000
+      }).then(() => {
+        navigate(LOGIN);
       });
-      navigate(LOGIN);
-    } // else: show error [signOut() returns false if failed]
+    } else {
+      Swal.fire({
+        icon: 'error',
+        title: 'Logout failed',
+      });
+    }
   }
 
   return { logout, isLoading };

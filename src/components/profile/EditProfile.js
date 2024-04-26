@@ -1,23 +1,11 @@
-import {
-  Button,
-  FormControl,
-  FormLabel,
-  HStack,
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalHeader,
-  ModalOverlay,
-  Box
-  
-} from "@chakra-ui/react";
-import { useAuth } from "hooks/auth";
-import { useUpdateAvatar } from "hooks/users";
-import Avatar from "./Avatar";
+import React from 'react';
+import { useState } from 'react';
+import { Modal, Button, Form} from 'react-bootstrap';
+import { useAuth } from 'hooks/auth';
+import { useUpdateAvatar } from 'hooks/users';
+import Avatar from './Avatar';
 
 export default function EditProfile({ isOpen, onClose }) {
-
   const { user, isLoading: authLoading } = useAuth();
   const {
     setFile,
@@ -27,50 +15,47 @@ export default function EditProfile({ isOpen, onClose }) {
     error: uploadError,
   } = useUpdateAvatar(user?.id);
 
+  const [selectedFile, setSelectedFile] = useState(null);
+
   function handleChange(e) {
+    setSelectedFile(true)
     setFile(e.target.files[0]);
   }
 
-  if (authLoading) return "Loading...";
+
+  if (authLoading) return 'Loading...';
 
   return (
-    <Modal  isOpen={isOpen} onClose={onClose}>
-      <ModalOverlay />
-      <ModalContent >
-        <ModalHeader >Edit profile</ModalHeader>
-        <ModalCloseButton />
-        <ModalBody>
-          <HStack spacing="5" >
-            <Avatar user={user} overrideAvatar={fileURL} />
-            <FormControl py="4" >
-              <FormLabel htmlFor="picture">Change avatar</FormLabel>
-              <input
-                type="file"
-                id="picture"
-                accept="image/*"
-                onChange={handleChange}
-                
-              />
-            </FormControl>
-          </HStack>
-          {uploadError && (
-            <Box color="red.500" my="4">
-              {uploadError.message}
-            </Box>
-          )}
-          <Button
-            loadingText="Uploading"
-            w="full"
-            my="6"
-            colorScheme="teal"
-            onClick={updateAvatar}
-            isLoading={fileLoading}
-            disabled={fileLoading}
-          >
-            Save
-          </Button>
-        </ModalBody>
-      </ModalContent>
+    <Modal show={isOpen} onHide={onClose}>
+      <Modal.Header closeButton>
+        <Modal.Title>Edit profile</Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        <div className="d-flex align-items-center">
+          <Avatar user={user} overrideAvatar={fileURL} />
+          <Form.Group className="mb-3" controlId="picture">
+            <Form.Label>Change avatar</Form.Label>
+            <Form.Control type="file" accept="image/*" onChange={handleChange}  />
+          </Form.Group>
+        </div>
+        {uploadError && (
+          <div className="text-danger my-4">{uploadError.message}</div>
+        )}
+      </Modal.Body>
+      <Modal.Footer>
+        <Button variant="secondary" onClick={onClose}>
+          Close
+        </Button>
+        <Button
+          variant="primary"
+          disabled={!selectedFile || fileLoading}
+          onClick={() => {
+            updateAvatar();
+          }}
+        >
+          {fileLoading ? 'Uploading...' : 'Save'}
+        </Button>
+      </Modal.Footer>
     </Modal>
   );
 }

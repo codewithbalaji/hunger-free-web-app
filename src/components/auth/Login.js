@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { useLogin } from 'hooks/auth';
 import { useForm } from 'react-hook-form';
 import { emailValidate, passwordValidate } from 'utils/form-validate';
-import { DASHBOARD, REGISTER } from 'lib/routes';
+import { HERO, REGISTER } from 'lib/routes';
 import logo from 'assets/logo.png';
 
 export default function Login() {
@@ -22,7 +22,7 @@ export default function Login() {
       await login({
         email: data.email,
         password: data.password,
-        redirectTo: DASHBOARD
+        redirectTo: HERO
       });
     } catch (error) {
       setLoginError(error.message);

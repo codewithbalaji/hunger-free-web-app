@@ -3,7 +3,6 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@chakra-ui/react": "^2.8.2",
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.5",
     "@testing-library/jest-dom": "^5.17.0",
@@ -27,6 +26,8 @@
     "react-time-picker": "^6.6.0",
     "react-type-animation": "^3.2.0",
     "sass": "^1.75.0",
+    "sweetalert2": "^11.10.8",
+    "sweetalert2-react-content": "^5.0.7",
     "web-vitals": "^2.1.4"
   },
   "scripts": {

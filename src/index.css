@@ -61,7 +61,7 @@ ul {
 }
 
 a {
-  text-decoration: none;
+  text-decoration: none !important;
 }
 
 img {
@@ -251,3 +251,4 @@ img {
     height: 250px; /* Adjusted height for mobile screens */
   }
 }
+

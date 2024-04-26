@@ -1,16 +1,15 @@
-import { Button } from "@chakra-ui/react";
+import React from "react";
 import { PROTECTED } from "lib/routes";
 import { Link } from "react-router-dom";
 
 export default function UsernameButton({ user }) {
   return (
-    <Button
+    <Link
       as={Link}
       to={`${PROTECTED}/profile/${user.id}`}
-      colorScheme="teal"
-      variant="link"
+      style={{fontWeight:"600"}}
     >
       {user.username}
-    </Button>
+    </Link>
   );
 }

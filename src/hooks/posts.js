@@ -1,10 +1,8 @@
-import { useToast } from "@chakra-ui/react";
-import { uuidv4 } from "@firebase/util";
+import Swal from 'sweetalert2';
 import {
   collection,
   deleteDoc,
   doc,
-  getDocs,
   orderBy,
   query,
   setDoc,
@@ -19,24 +17,21 @@ import {
 
 export function useAddPost() {
   const [isLoading, setLoading] = useState(false);
-  const toast = useToast();
 
   async function addPost(post, url) {
     setLoading(true);
-    const id = uuidv4();
+    const id = doc(collection(db, "posts")).id; // Using Firebase method to generate unique ID
     await setDoc(doc(db, "posts", id), {
       ...post,
       id,
       date: Date.now(),
       image: url,
-      
     });
-    toast({
-      title: "Post added successfully!",
-      status: "success",
-      isClosable: true,
-      position: "top",
-      duration: 5000,
+    Swal.fire({
+      icon: 'success',
+      title: 'Post added successfully!',
+      showConfirmButton: false,
+      timer: 2000
     });
     setLoading(false);
   }
@@ -46,28 +41,27 @@ export function useAddPost() {
 
 export function useDeletePost(id) {
   const [isLoading, setLoading] = useState(false);
-  const toast = useToast();
 
   async function deletePost() {
-    const res = window.confirm("Are you sure you want to delete this post?");
+    const res = await Swal.fire({
+      icon: 'question',
+      title: 'Are you sure you want to delete this post?',
+      showCancelButton: true,
+      confirmButtonText: 'Yes, delete it!',
+      cancelButtonText: 'Cancel',
+    });
 
-    if (res) {
+    if (res.isConfirmed) {
       setLoading(true);
 
       // Delete post document
       await deleteDoc(doc(db, "posts", id));
 
-      // Delete comments
-      const q = query(collection(db, "comments"), where("postID", "==", id));
-      const querySnapshot = await getDocs(q);
-      querySnapshot.forEach(async (doc) => deleteDoc(doc.ref));
-
-      toast({
-        title: "Post deleted!",
-        status: "info",
-        isClosable: true,
-        position: "top",
-        duration: 5000,
+      Swal.fire({
+        icon: 'info',
+        title: 'Post deleted!',
+        showConfirmButton: false,
+        timer: 2000
       });
 
       setLoading(false);

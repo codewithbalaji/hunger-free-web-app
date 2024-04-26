@@ -5,6 +5,7 @@ import { useLogin } from 'hooks/auth';
 import { useForm } from 'react-hook-form';
 import { emailValidate, passwordValidate } from 'utils/form-validate';
 import { DASHBOARD, REGISTER } from 'lib/routes';
+import logo from 'assets/logo.png';
 
 export default function Login() {
   const { login, isLoading } = useLogin();
@@ -32,7 +33,15 @@ export default function Login() {
     <Container className="d-flex align-items-center justify-content-center" style={{ minHeight: '100vh' }}>
       <Row className="justify-content-center">
         <Col >
-          <div className="p-4 border rounded">
+        <div className="home-container" style={{ textAlign: 'center' ,marginBottom:'10px'}}>
+          <div className="logo" style={{ display: 'flex', justifyContent: 'center' }}>
+            <img src={logo} alt="Logo" style={{ width: '200px', height: 'auto' }} />
+          </div>
+          <div className="name" style={{ marginTop: '1px' }}>
+            <h1 style={{ fontSize: '36px' }}>Welcome Back</h1>
+          </div>
+        </div>
+          <div className="p-4">
             <h2 className="mb-4 text-center">Log In</h2>
 
             {loginError && <Alert variant="danger">{loginError}</Alert>}

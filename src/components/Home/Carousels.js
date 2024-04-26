@@ -1,12 +1,14 @@
+import React from "react";
 import Carousel from "react-bootstrap/Carousel";
-import img1 from "assets/img1.png";
-import img2 from "assets/img2.png";
+import img1 from "assets/hunger-1.png";
+import img2 from "assets/hunger-2.png";
 import img3 from "assets/hunger-3.png";
+import { TypeAnimation } from 'react-type-animation';
 
 function Carousels() {
   return (
     <>
-      <Carousel data-bs-theme="dark">
+      <Carousel controls={false} interval={3000} data-bs-theme="dark">
         <Carousel.Item>
           <img
             className="d-block w-100 carousel-image"
@@ -33,8 +35,21 @@ function Carousels() {
         </Carousel.Item>
       </Carousel>
       <div className="text-center">
-        <h2 className="display-5 mt-3">Let Say No To Hunger!</h2>
-        <p className="lead text-muted">We Save People Who needs Food</p>
+      <TypeAnimation
+      sequence={[
+        // Same substring at the start will only be typed out once, initially
+        'Let say no to hunger',
+        1000, // wait 1s before replacing "Mice" with "Hamsters"
+        'Today 300+ food donated',
+        1000,
+        'Current volunters 50+',
+        1000,
+      ]}
+      wrapper="span"
+      speed={50}
+      style={{ fontSize: '2em', display: 'inline-block' }}
+      repeat={Infinity}
+    />
       </div>
     </>
   );

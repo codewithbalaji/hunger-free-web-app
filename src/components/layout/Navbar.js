@@ -18,7 +18,6 @@ const Navbar = () => {
   
 const { user, isLoading: authLoading } = useAuth();
 if (authLoading) return "Loading...";
-console.log(user)
 
 
   const handleLinkClick = (link) => {
@@ -30,7 +29,7 @@ console.log(user)
   return (
     <header className="header " id="header">
       <nav className="nav container ">
-        <a href="/" className="nav__logo">
+        <a href="/" className="nav__logo ps-2" >
           Hunger Free
         </a>
         <div className="nav__menu" id="nav-menu">
@@ -124,8 +123,7 @@ console.log(user)
             </li>
           </ul>
         </div>
-
-        <img src="" alt="img" className="nav__img" />
+        <img src={user.avatar} alt="img" className="nav__img" />
       </nav>
     </header>
   );

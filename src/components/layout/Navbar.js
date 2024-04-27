@@ -1,7 +1,5 @@
 import React, { useState } from "react";
-import {
-  FiHome,
-} from "react-icons/fi";
+import { FiHome } from "react-icons/fi";
 import { DASHBOARD } from "lib/routes";
 import { RENDER_POST } from "lib/routes";
 import { HERO } from "lib/routes";
@@ -12,25 +10,22 @@ import { CgProfile } from "react-icons/cg";
 import { PROTECTED } from "lib/routes";
 import { useAuth } from "hooks/auth";
 
-
 const Navbar = () => {
   const [activeLink, setActiveLink] = useState("home"); // State to track active link
-  
-const { user, isLoading: authLoading } = useAuth();
-if (authLoading) return "Loading...";
 
+  const { user, isLoading: authLoading } = useAuth();
+  if (authLoading) return "Loading...";
 
   const handleLinkClick = (link) => {
     setActiveLink(link);
   };
 
-  console.log(user.role)
-  
+  console.log(user.role);
 
   return (
     <header className="header " id="header">
       <nav className="nav container ">
-        <a href="/" className="nav__logo ps-2" >
+        <a href="/" className="nav__logo ps-2">
           Hunger Free
         </a>
         <div className="nav__menu" id="nav-menu">
@@ -58,48 +53,46 @@ if (authLoading) return "Loading...";
             </li>
 
             {user.role === "contributor" && (
-  <li
-    className={`nav__item ${
-      activeLink === "about" ? "active-link" : ""
-    }`}
-  >
-    <Link
-      as={RouterLink}
-      to={RENDER_POST}
-      className="nav__link"
-      onClick={() => handleLinkClick("about")}
-    >
-      <BiHistory className="nav__icon" />
-      <span
-        className={`nav__name ${
-          activeLink === "about" ? "active-link" : ""
-        }`}
-      >
-        Posts
-      </span>
-    </Link>
-  </li>
-)}
-
-
+              <li
+                className={`nav__item ${
+                  activeLink === "donate" ? "active-link" : ""
+                }`}
+              >
+                <Link
+                  as={RouterLink}
+                  to={DASHBOARD}
+                  className="nav__link"
+                  onClick={() => handleLinkClick("donate")}
+                >
+                  <IoMdAddCircleOutline className="nav__icon" />
+                  <span
+                    className={`nav__name ${
+                      activeLink === "donate" ? "active-link" : ""
+                    }`}
+                  >
+                    Donate
+                  </span>
+                </Link>
+              </li>
+            )}
             <li
               className={`nav__item ${
-                activeLink === "donate" ? "active-link" : ""
+                activeLink === "about" ? "active-link" : ""
               }`}
             >
               <Link
                 as={RouterLink}
-                to={DASHBOARD}
+                to={RENDER_POST}
                 className="nav__link"
-                onClick={() => handleLinkClick("donate")}
+                onClick={() => handleLinkClick("about")}
               >
-                <IoMdAddCircleOutline className="nav__icon" />
+                <BiHistory className="nav__icon" />
                 <span
                   className={`nav__name ${
-                    activeLink === "donate" ? "active-link" : ""
+                    activeLink === "about" ? "active-link" : ""
                   }`}
                 >
-                  Donate
+                  Posts
                 </span>
               </Link>
             </li>

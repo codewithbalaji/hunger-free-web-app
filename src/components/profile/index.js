@@ -20,6 +20,8 @@ export default function Profile() {
   const closeModal = () => setIsOpen(false);
   const { logout, isLoading: logoutLoading } = useLogout();
 
+  console.log(user)
+
   useEffect(() => {
     if (userLoading || postsLoading || authLoading || logoutLoading) {
       Swal.fire({
@@ -47,7 +49,9 @@ export default function Profile() {
         <div className="col">
           <h2>{user.username}</h2>
           <div className="mb-3">
+          {user.role === "contributor" && (
             <p>Posts: {posts.length}</p>
+          )}
             <p>Role: {user.role}</p>
             <p>Joined: {format(user.date, "MMMM yyy")}</p>
           </div>

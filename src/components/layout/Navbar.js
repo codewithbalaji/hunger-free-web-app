@@ -20,7 +20,7 @@ const Navbar = () => {
     setActiveLink(link);
   };
 
-  console.log(user.role);
+
 
   return (
     <header className="header " id="header">

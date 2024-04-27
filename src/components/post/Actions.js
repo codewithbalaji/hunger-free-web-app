@@ -4,6 +4,7 @@ import { Button, Spinner } from "react-bootstrap";
 import { useAuth } from "hooks/auth";
 import { useDeletePost, useAcceptRequest } from "hooks/posts";
 
+
 export default function Actions({ post }) {
   const { id, uid, request, acceptby, ph } = post;
   const { user, isLoading: userLoading } = useAuth();
@@ -14,8 +15,8 @@ export default function Actions({ post }) {
   const isVolunteer = user && user.role === "volunteer";
   const isContributor = user && user.role === "contributor";
 
-  // console.log(user)
-  console.log(ph);
+
+ 
 
   return (
     <div className="p-2 d-flex align-items-center justify-content-between">
@@ -39,7 +40,7 @@ export default function Actions({ post }) {
         )}
       {isVolunteer && request && (
         <>
-          {acceptby === user.id ? (
+          {acceptby === user.username ? (
             <>
               <a href={`tel:+91${ph}`}>
                 <FaPhoneAlt size="19" className="nav-linker" />
@@ -67,7 +68,7 @@ export default function Actions({ post }) {
             )}
           </Button>
           {isContributor && request === true && (
-            <span className="badge bg-success mx-2">Pickup Confirmed</span>
+            <span className="badge bg-success mx-2">Pickup Confirmed by {acceptby}</span>
           )}
         </>
       )}

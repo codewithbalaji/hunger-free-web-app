@@ -89,7 +89,7 @@ export function useAcceptRequest(id) {
     // Update post document to mark as accepted
     await updateDoc(doc(db, "posts", id), {
       request: true,
-      acceptby: user.id
+      acceptby: user.username
     });
 
     // Display success alert using Swal

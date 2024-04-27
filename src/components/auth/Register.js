@@ -24,6 +24,7 @@ export default function Register() {
         email: data.email,
         password: data.password,
         role: data.role,
+        phoneNumber: data.phoneNumber, 
         redirectTo: DASHBOARD
       });
     } catch (error) {
@@ -32,55 +33,68 @@ export default function Register() {
   }
 
   return (
-    
-    <Container className="d-flex align-items-center justify-content-center" style={{ minHeight: '100vh' }}>
+    <Container className="d-flex align-items-center justify-content-center" style={{ minHeight: '100vh', fontFamily: "'Montserrat', sans-serif" ,backgroundColor:"#f37a2f"}}>
       <Row className="justify-content-center">
       <div className="home-container" style={{ textAlign: 'center' ,marginBottom:'10px'}}>
           <div className="logo" style={{ display: 'flex', justifyContent: 'center' }}>
             <img src={logo} alt="Logo" style={{ width: '200px', height: 'auto' }} />
           </div>
-          <div className="name" style={{ marginTop: '1px' }}>
-            <h1 style={{ fontSize: '36px',  }}>Welcome You</h1>
+          <div className="name" style={{ marginTop: '0px' }}>
+            <h1 style={{ fontSize: "36px", fontWeight: "bold", color: "#fff" }}>Welcome You</h1>
           </div>
         </div>
         <Col >
-          <div className="p-4">
-            <h2 className="mb-4 text-center">Register</h2>
+          <div className="p-2">
+            <h2 className="mb-2 text-center" style={{ fontSize: "24px", color: "#fff" }}>Register</h2>
 
             {registerError && <Alert variant="danger">{registerError}</Alert>}
 
             <Form onSubmit={handleSubmit(handleRegister)}>
               <FormGroup className="py-2">
-                <FormLabel>Username</FormLabel>
+                <FormLabel style={{ fontSize: "16px", color: "#fff",fontWeight:"bold" }}>Username</FormLabel>
                 <FormControl
-                  placeholder="username"
+                  placeholder="Enter your username"
                   {...register("username", usernameValidate)}
+                  style={{ '::placeholder': { color: '#888' }, width: '100%',padding:"14px" }}
                 />
                 {errors.username && <Form.Text className="text-danger">{errors.username.message}</Form.Text>}
               </FormGroup>
               <FormGroup className="py-2">
-                <FormLabel>Email</FormLabel>
+                <FormLabel style={{ fontSize: "16px", color: "#fff",fontWeight:"bold" }}>Email</FormLabel>
                 <FormControl
                   type="email"
-                  placeholder="user@email.com"
+                  placeholder="Enter your email"
                   {...register("email", emailValidate)}
+                  style={{ '::placeholder': { color: '#888' }, width: '100%' ,padding:"14px"}}
                 />
                 {errors.email && <Form.Text className="text-danger">{errors.email.message}</Form.Text>}
               </FormGroup>
               <FormGroup className="py-2">
-                <FormLabel>Password</FormLabel>
+                <FormLabel style={{ fontSize: "16px", color: "#fff",fontWeight:"bold" }}>Password</FormLabel>
                 <FormControl
                   type="password"
-                  placeholder="password123"
+                  placeholder="Enter your password"
                   {...register("password", passwordValidate)}
+                  style={{ '::placeholder': { color: '#888' }, width: '100%' ,padding:"14px"}}
                 />
                 {errors.password && <Form.Text className="text-danger">{errors.password.message}</Form.Text>}
               </FormGroup>
               <FormGroup className="py-2">
-                <FormLabel>Role</FormLabel>
+                <FormLabel style={{ fontSize: "16px", color: "#fff",fontWeight:"bold" }}>Phone Number</FormLabel>
+                <FormControl
+                  type="tel"
+                  placeholder="Enter your phone number"
+                  {...register("phoneNumber", { required: "Phone number is required" })}
+                  style={{ '::placeholder': { color: '#888' }, width: '100%' ,padding:"14px"}}
+                />
+                {errors.phoneNumber && <Form.Text className="text-danger">{errors.phoneNumber.message}</Form.Text>}
+              </FormGroup>
+              <FormGroup className="py-2">
+                <FormLabel style={{ fontSize: "16px", color: "#fff",fontWeight:"bold" }}>Role</FormLabel>
                 <FormControl
                   as="select"
                   {...register("role", { required: "Role is required" })}
+                  style={{ '::placeholder': { color: '#888' }, width: '100%',padding:"14px" }}
                 >
                   <option value="volunteer">Volunteer</option>
                   <option value="contributor">Contributor</option>
@@ -93,14 +107,15 @@ export default function Register() {
                 type="submit"
                 size="md"
                 disabled={isLoading}
+                style={{ width: "100%", fontWeight: "bold",backgroundColor:"black",color:"white" }}
               >
                 {isLoading ? 'Signing Up' : 'Register'}
               </Button>
             </Form>
 
-            <p className="text-center mt-4">
+            <p className="text-center mt-4" style={{ fontSize: "14px",color: "#232b2b ",fontWeight: "bold" }}> 
               Already have an account?{' '}
-              <Link to={LOGIN} className="text-decoration-none fw-medium text-primary">
+              <Link to={LOGIN} className="text-decoration-none " style={{ fontWeight: "bold", color: "white" }}>
                 Log In
               </Link>{' '}
               instead!

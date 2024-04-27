@@ -6,7 +6,7 @@ import {
 import { useAuthState, useSignOut } from "react-firebase-hooks/auth";
 import { auth, db } from "lib/firebase";
 import { useEffect, useState } from "react";
-import { DASHBOARD, LOGIN } from "lib/routes";
+import { HERO, LOGIN } from "lib/routes";
 import { useNavigate } from "react-router-dom";
 import { setDoc, doc, getDoc } from "firebase/firestore";
 import isUsernameExists from "utils/isUsernameExists";
@@ -38,7 +38,7 @@ export function useLogin() {
   const [isLoading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  async function login({ email, password, redirectTo = DASHBOARD }) {
+  async function login({ email, password, redirectTo = HERO }) {
     setLoading(true);
 
     try {
@@ -74,7 +74,8 @@ export function useRegister() {
     email,
     password,
     role,
-    redirectTo = DASHBOARD,
+    phoneNumber,
+    redirectTo = HERO,
   }) {
     setLoading(true);
 
@@ -95,7 +96,8 @@ export function useRegister() {
           username: username.toLowerCase(),
           avatar: "",
           date: Date.now(),
-          role: role
+          role: role,
+          ph: parseInt(phoneNumber),
         });
 
         Swal.fire({

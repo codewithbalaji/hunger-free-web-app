@@ -124,7 +124,7 @@ function NewPost() {
           <TextareaAutosize
             className="form-control mb-3"
             placeholder="What food you donating today?"
-            minRows={3}
+            minRows={5}
             {...register("text", { required: true })}
           />
         </FormGroup>
@@ -164,11 +164,11 @@ function NewPost() {
             className="form-control"
             id="address"
             placeholder="Enter your address"
-            minRows={3}
+            minRows={5}
             {...register("address")}
           />
         </FormGroup>
-        <FormGroup className="mb-3">
+        {/* <FormGroup className="mb-3">
           <div className="">
             <button
               className="btn btn-primary"
@@ -180,7 +180,7 @@ function NewPost() {
               Get Current Location
             </button>
           </div>
-        </FormGroup>
+        </FormGroup> */}
         <Modal show={isOpen} onHide={onClose}>
           <ModalHeader closeButton className="text-center">
             Choose Image
@@ -225,13 +225,16 @@ function NewPost() {
             </ButtonGroup>
           </ModalFooter>
         </Modal>
+        <div className="d-grid gap-2 mt-4">
         <Button
           variant="primary"
           type="submit"
+          size="lg"
           disabled={authLoading || addingPost}
         >
           {authLoading || addingPost ? "Loading" : "Post"}
         </Button>
+        </div>
       </Form>
     </Container>
   );

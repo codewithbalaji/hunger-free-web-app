@@ -1,18 +1,28 @@
-import { useState } from 'react';
-import { Button, Form, FormControl, FormGroup, FormLabel, Container, Row, Col, Alert } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
-import { useLogin } from 'hooks/auth';
-import { useForm } from 'react-hook-form';
-import { emailValidate, passwordValidate } from 'utils/form-validate';
-import { HERO, REGISTER } from 'lib/routes';
-import logo from 'assets/logo.png';
+import { useState } from "react";
+import {
+  Button,
+  Form,
+  FormControl,
+  FormGroup,
+  FormLabel,
+  Container,
+  Row,
+  Col,
+  Alert,
+} from "react-bootstrap";
+import { Link } from "react-router-dom";
+import { useLogin } from "hooks/auth";
+import { useForm } from "react-hook-form";
+import { emailValidate, passwordValidate } from "utils/form-validate";
+import { HERO, REGISTER } from "lib/routes";
+import logo from "assets/logo.png";
 
 export default function Login() {
   const { login, isLoading } = useLogin();
   const {
     register,
     handleSubmit,
-    formState: { errors }
+    formState: { errors },
   } = useForm();
 
   const [loginError, setLoginError] = useState(null);
@@ -22,7 +32,7 @@ export default function Login() {
       await login({
         email: data.email,
         password: data.password,
-        redirectTo: HERO
+        redirectTo: HERO,
       });
     } catch (error) {
       setLoginError(error.message);
@@ -30,40 +40,66 @@ export default function Login() {
   }
 
   return (
-    <Container className="d-flex align-items-center justify-content-center" style={{ minHeight: '100vh' }}>
+    <Container
+      className="d-flex align-items-center justify-content-center"
+      style={{ minHeight: "100vh", backgroundColor:"#f37a2f", fontFamily: "'Montserrat', sans-serif" }}
+    >
       <Row className="justify-content-center">
-        <Col >
-        <div className="home-container" style={{ textAlign: 'center' ,marginBottom:'10px'}}>
-          <div className="logo" style={{ display: 'flex', justifyContent: 'center' }}>
-            <img src={logo} alt="Logo" style={{ width: '200px', height: 'auto' }} />
+        <Col>
+          <div
+            className="home-container"
+            style={{ textAlign: "center", marginBottom: "10px" }}
+          >
+            <div
+              className="logo"
+              style={{ display: "flex", justifyContent: "center" }}
+            >
+              <img
+                src={logo}
+                alt="Logo"
+                style={{ width: "200px", height: "auto" }}
+              />
+            </div>
+            <div className="name" style={{ marginTop: "1px" }}>
+              <h1 style={{ fontSize: "36px", fontWeight: "bold", color: "#fff" }}>Welcome Back</h1>
+            </div>
           </div>
-          <div className="name" style={{ marginTop: '1px' }}>
-            <h1 style={{ fontSize: '36px' }}>Welcome Back</h1>
-          </div>
-        </div>
           <div className="p-4">
-            <h2 className="mb-4 text-center">Log In</h2>
+            <h2 className="mb-4 text-center" style={{ fontSize: "24px", color: "#fff" }}>Log In</h2>
 
             {loginError && <Alert variant="danger">{loginError}</Alert>}
 
-            <Form onSubmit={handleSubmit(handleLogin)}>
+            <Form
+              onSubmit={handleSubmit(handleLogin)}
+              style={{ margin: "0 auto", maxWidth: "400px" }}
+            >
               <FormGroup className="py-2" controlId="email">
-                <FormLabel>Email</FormLabel>
+                <FormLabel style={{ fontSize: "16px", color: "#fff" }}><b> Your Email</b></FormLabel>
                 <FormControl
                   type="email"
-                  placeholder="user@email.com"
+                  placeholder="Enter your email"
                   {...register("email", emailValidate)}
+                  style={{ width: "100%",padding:"15px"}}
                 />
-                {errors.email && <Form.Text className="text-danger">{errors.email.message}</Form.Text>}
+                {errors.email && (
+                  <Form.Text className="text-danger">
+                    {errors.email.message}
+                  </Form.Text>
+                )}
               </FormGroup>
               <FormGroup className="py-2" controlId="password">
-                <FormLabel>Password</FormLabel>
+                <FormLabel style={{ fontSize: "16px", color: "#fff" }}><b>Your Password</b></FormLabel>
                 <FormControl
                   type="password"
-                  placeholder="password123"
+                  placeholder="Enter your password"
                   {...register("password", passwordValidate)}
+                  style={{ width: "100%",padding:"15px"}}
                 />
-                {errors.password && <Form.Text className="text-danger">{errors.password.message}</Form.Text>}
+                {errors.password && (
+                  <Form.Text className="text-danger">
+                    {errors.password.message}
+                  </Form.Text>
+                )}
               </FormGroup>
               <Button
                 className="mt-4"
@@ -71,16 +107,21 @@ export default function Login() {
                 type="submit"
                 size="md"
                 disabled={isLoading}
+                style={{ width: "100%", fontWeight: "bold",backgroundColor:"black",color:"white" }}
               >
-                {isLoading ? 'Logging In' : 'Log In'}
+                {isLoading ? "Logging In" : "Log In"}
               </Button>
             </Form>
 
-            <p className="text-center mt-4">
-              Don't have an account?{' '}
-              <Link to={REGISTER} className="text-decoration-none fw-medium text-primary">
-                Register
-              </Link>{' '}
+            <p className="text-center mt-4" style={{ fontSize: "14px",color: "#232b2b ",fontWeight: "bold" }}>
+              Don't have an account?{" "}
+              <Link
+                to={REGISTER}
+                className="text-decoration-none"
+                style={{ fontWeight: "bold", color: "white" }}
+              > 
+                Register 
+              </Link>{" "}
               instead!
             </p>
           </div>

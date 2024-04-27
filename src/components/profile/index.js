@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button, Modal } from "react-bootstrap";
 import { usePosts } from "hooks/posts";
 import { useUser } from "hooks/users";
@@ -8,6 +8,7 @@ import { format } from "date-fns";
 import EditProfile from "./EditProfile";
 import { useAuth } from "hooks/auth";
 import { useLogout } from "hooks/auth";
+import Swal from "sweetalert2";
 
 export default function Profile() {
   const { id } = useParams();
@@ -17,11 +18,25 @@ export default function Profile() {
   const [isOpen, setIsOpen] = useState(false);
   const openModal = () => setIsOpen(true);
   const closeModal = () => setIsOpen(false);
-  const { logout, isLoading } = useLogout();
+  const { logout, isLoading: logoutLoading } = useLogout();
 
-  if (userLoading) return "Loading...";
+  useEffect(() => {
+    if (userLoading || postsLoading || authLoading || logoutLoading) {
+      Swal.fire({
+        title: "Loading...",
+        html: "Please wait...",
+        allowEscapeKey: false,
+        allowOutsideClick: false,
+        didOpen: () => {
+          Swal.showLoading();
+        },
+      });
+    } else {
+      Swal.close();
+    }
+  }, [userLoading, postsLoading, authLoading, logoutLoading]);
 
-  
+  if (userLoading) return "";
 
   return (
     <div className="container my-5">

@@ -5,7 +5,7 @@ import Actions from "./Actions";
 
 export default function Post({ post }) {
   // Destructuring text and image from post
-  const { text, image, foodQuantity, cookedTime, address } = post;
+  const { text, image, foodQuantity, cookedTime, address, } = post;
 
   return (
     <Container className="p-2">

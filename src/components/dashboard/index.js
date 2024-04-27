@@ -77,9 +77,12 @@ function NewPost() {
         uid: user.id,
         text: data.text,
         foodQuantity: data.foodQuantity,
-        cookedTime: cookedTime,
+        cookedTime: cookedTimeString,
         currentLocation: currentLocation,
         address: data.address,
+        request: false,
+        acceptby: null,
+        ph: user.ph,
       },
       url
     );

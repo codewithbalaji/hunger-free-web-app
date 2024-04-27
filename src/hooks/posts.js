@@ -6,6 +6,7 @@ import {
   orderBy,
   query,
   setDoc,
+  updateDoc,
   where,
 } from "firebase/firestore";
 import { db } from "lib/firebase";
@@ -14,25 +15,29 @@ import {
   useCollectionData,
   useDocumentData,
 } from "react-firebase-hooks/firestore";
+import { useAuth } from './auth';
 
 export function useAddPost() {
   const [isLoading, setLoading] = useState(false);
 
   async function addPost(post, url) {
     setLoading(true);
-    const id = doc(collection(db, "posts")).id; // Using Firebase method to generate unique ID
+    const id = doc(collection(db, "posts")).id;
     await setDoc(doc(db, "posts", id), {
       ...post,
       id,
       date: Date.now(),
       image: url,
     });
-    Swal.fire({
+
+    // Display success alert using Swal
+    await Swal.fire({
       icon: 'success',
       title: 'Post added successfully!',
       showConfirmButton: false,
       timer: 2000
     });
+
     setLoading(false);
   }
 
@@ -57,7 +62,8 @@ export function useDeletePost(id) {
       // Delete post document
       await deleteDoc(doc(db, "posts", id));
 
-      Swal.fire({
+      // Display info alert using Swal
+      await Swal.fire({
         icon: 'info',
         title: 'Post deleted!',
         showConfirmButton: false,
@@ -70,6 +76,36 @@ export function useDeletePost(id) {
 
   return { deletePost, isLoading };
 }
+
+
+
+export function useAcceptRequest(id) {
+  const [isLoading, setLoading] = useState(false);
+  const { user, isLoading: userLoading } = useAuth();
+
+  async function acceptRequest() {
+    setLoading(true);
+
+    // Update post document to mark as accepted
+    await updateDoc(doc(db, "posts", id), {
+      request: true,
+      acceptby: user.id
+    });
+
+    // Display success alert using Swal
+    await Swal.fire({
+      icon: 'success',
+      title: 'Request accepted successfully!',
+      showConfirmButton: false,
+      timer: 2000
+    });
+
+    setLoading(false);
+  }
+
+  return { acceptRequest, isLoading };
+}
+
 
 export function usePost(id) {
   const q = doc(db, "posts", id);

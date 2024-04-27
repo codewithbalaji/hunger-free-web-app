@@ -1,62 +1,50 @@
 import React from "react";
 import { Button, Col, Container, Row } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import welcome from "./welcome.jpg";
+import img1 from "assets/home.png";
 
 const Home = () => {
   const history = useNavigate();
 
   const handleLogin = () => {
     try {
-      // Navigate to login page
+       
       history("/login");
     } catch (error) {
-      // Handle navigation error
+       
       console.error("Navigation error:", error);
     }
   };
 
-  const handleSignup = () => {
-    try {
-      // Navigate to signup page
-      history("/register");
-    } catch (error) {
-      // Handle navigation error
-      console.error("Navigation error:", error);
-    }
-  };
+  
 
   return (
     <Container
       className="d-flex align-items-center justify-content-center"
-      style={{ marginTop: "200px" }}
+      style={{ minHeight: "100vh", backgroundColor:"#f37a2f" ,fontFamily: "'Montserrat', sans-serif"}}
     >
       <Row className="justify-content-center">
-        {/* Upper Grid for Image */}
+        
         <Col md={6} className="mb-4 ">
-          <h2 className="mb-4 ">Welcome</h2>
-          <p className="mb-4">Start your helping journey with us.</p>
-          <img src={welcome} alt="Welcome" className="img-fluid" />
-          <div className="p-4">
+          <h2 className="mb-4 text-light text-center" style={{fontSize:"35px"}}><b>Welcome to Hunger Free</b></h2>
+          <p className="mb-4 text-center text-light" style={{fontSize:"20px"  }}>Start your helping journey with us.</p>
+          <img src={img1} alt="Welcome" className="img-fluid" />
+          <br></br>
+          <div style={{textAlign:"center"}}>
             <Button
-              variant="primary"
+              variant="secondary"
               className="me-2"
               onClick={handleLogin}
               aria-label="Login"
+              style={{padding:"12px"}}
             >
-              Login
-            </Button>
-            <Button
-              variant="secondary"
-              onClick={handleSignup}
-              aria-label="Sign Up"
-            >
-              Signup
+              <b>Get Started</b>
             </Button>
           </div>
         </Col>
       </Row>
     </Container>
+    
   );
 };
 

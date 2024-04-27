@@ -39,13 +39,11 @@ export default function Register() {
           <div className="logo" style={{ display: 'flex', justifyContent: 'center' }}>
             <img src={logo} alt="Logo" style={{ width: '200px', height: 'auto' }} />
           </div>
-          <div className="name" style={{ marginTop: '0px' }}>
-            <h1 style={{ fontSize: "36px", fontWeight: "bold", color: "#fff" }}>Welcome You</h1>
-          </div>
+          
         </div>
         <Col >
           <div className="p-2">
-            <h2 className="mb-2 text-center" style={{ fontSize: "24px", color: "#fff" }}>Register</h2>
+            <p className="mb-2 text-center" style={{ fontSize: "24px", fontWeight:"600", color: "#fff" }}>Register Today</p>
 
             {registerError && <Alert variant="danger">{registerError}</Alert>}
 

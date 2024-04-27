@@ -65,7 +65,7 @@ export default function Login() {
             </div>
           </div>
           <div className="p-4">
-            <h2 className="mb-4 text-center" style={{ fontSize: "24px", color: "#fff" }}>Log In</h2>
+            <h2 className="mb-4 text-center" style={{ fontSize: "24px", color: "#fff", fontWeight:"600" }}>Log In</h2>
 
             {loginError && <Alert variant="danger">{loginError}</Alert>}
 

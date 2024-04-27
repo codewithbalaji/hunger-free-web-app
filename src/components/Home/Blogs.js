@@ -5,11 +5,13 @@ import img2 from "assets/vol.jpg";
 const Blogs = () => {
   return (
     <div className="container">
-        <h1 className='mt-3'>Our Latest Blogs</h1>
+      <h1 className='mt-3'>Our Latest Blogs</h1>
       <div className="row">
         <div className="col-md-4">
           <div className="card mb-4 shadow-sm">
-            <img src={img1} className="card-img-top" alt="help" />
+            <div className="card-body d-flex justify-content-center align-items-center">
+              <img src={img1} className="card-img-top" alt="help" style={{width: '400px', height: '400px'}} />
+            </div>
             <div className="card-body">
               <h5 className="card-title">Blog Title</h5>
               <p className="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet.</p>
@@ -23,7 +25,9 @@ const Blogs = () => {
         </div>
         <div className="col-md-4">
           <div className="card mb-4 shadow-sm">
-            <img src={img2} className="card-img-top" alt="help" />
+            <div className="card-body d-flex justify-content-center align-items-center">
+              <img src={img2} className="card-img-top" alt="help" style={{width: '400px', height: '400px'}} />
+            </div>
             <div className="card-body">
               <h5 className="card-title">Blog Title</h5>
               <p className="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet.</p>
@@ -37,7 +41,9 @@ const Blogs = () => {
         </div>
         <div className="col-md-4">
           <div className="card mb-4 shadow-sm">
-            <img src={img1} className="card-img-top" alt="help" />
+            <div className="card-body d-flex justify-content-center align-items-center">
+              <img src={img1} className="card-img-top" alt="help" style={{width: '400px', height: '400px'}} />
+            </div>
             <div className="card-body">
               <h5 className="card-title">Blog Title</h5>
               <p className="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet.</p>

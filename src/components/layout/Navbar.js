@@ -24,6 +24,7 @@ if (authLoading) return "Loading...";
     setActiveLink(link);
   };
 
+  console.log(user.role)
   
 
   return (
@@ -56,43 +57,46 @@ if (authLoading) return "Loading...";
               </Link>
             </li>
 
-            <li
-              className={`nav__item ${
-                activeLink === "about" ? "active-link" : ""
-              }`}
-            >
-              <Link
-                as={RouterLink}
-                to={RENDER_POST}
-                className="nav__link"
-                onClick={() => handleLinkClick("about")}
-              >
-                <BiHistory className="nav__icon" />
-                <span
-                  className={`nav__name ${
-                    activeLink === "about" ? "active-link" : ""
-                  }`}
-                >
-                  Your Posts
-                </span>
-              </Link>
-            </li>
+            {user.role === "contributor" && (
+  <li
+    className={`nav__item ${
+      activeLink === "about" ? "active-link" : ""
+    }`}
+  >
+    <Link
+      as={RouterLink}
+      to={RENDER_POST}
+      className="nav__link"
+      onClick={() => handleLinkClick("about")}
+    >
+      <BiHistory className="nav__icon" />
+      <span
+        className={`nav__name ${
+          activeLink === "about" ? "active-link" : ""
+        }`}
+      >
+        Posts
+      </span>
+    </Link>
+  </li>
+)}
+
 
             <li
               className={`nav__item ${
-                activeLink === "skills" ? "active-link" : ""
+                activeLink === "donate" ? "active-link" : ""
               }`}
             >
               <Link
                 as={RouterLink}
                 to={DASHBOARD}
                 className="nav__link"
-                onClick={() => handleLinkClick("skills")}
+                onClick={() => handleLinkClick("donate")}
               >
                 <IoMdAddCircleOutline className="nav__icon" />
                 <span
                   className={`nav__name ${
-                    activeLink === "skills" ? "active-link" : ""
+                    activeLink === "donate" ? "active-link" : ""
                   }`}
                 >
                   Donate

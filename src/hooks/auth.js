@@ -38,7 +38,7 @@ export function useLogin() {
   const [isLoading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  async function login({ email, password, redirectTo = HERO }) {
+  async function login({ email, password, redirectTo = HERO,setForgot }) {
     setLoading(true);
 
     try {
@@ -52,6 +52,7 @@ export function useLogin() {
         navigate(redirectTo);
       });
     } catch (error) {
+      setForgot(true)
       Swal.fire({
         icon: 'error',
         title: 'Logging in failed',

@@ -14,7 +14,7 @@ import { Link } from "react-router-dom";
 import { useLogin } from "hooks/auth";
 import { useForm } from "react-hook-form";
 import { emailValidate, passwordValidate } from "utils/form-validate";
-import { HERO, REGISTER } from "lib/routes";
+import { HERO, REGISTER, RESET } from "lib/routes";
 import logo from "assets/logo.png";
 
 export default function Login() {
@@ -27,12 +27,15 @@ export default function Login() {
 
   const [loginError, setLoginError] = useState(null);
 
+  const [forgot, setForgot] = useState(false)
+
   async function handleLogin(data) {
     try {
       await login({
         email: data.email,
         password: data.password,
         redirectTo: HERO,
+        setForgot,
       });
     } catch (error) {
       setLoginError(error.message);
@@ -124,6 +127,18 @@ export default function Login() {
               </Link>{" "}
               instead!
             </p>
+            {forgot && 
+            <p className="text-center mt-4" style={{ fontSize: "14px",color: "#232b2b ",fontWeight: "bold" }}>
+              You have Forgot Password?{" "}
+              <Link
+                to={RESET}
+                className="text-decoration-none"
+                style={{ fontWeight: "bold", color: "white" }}
+              > 
+                Click here
+              </Link>{" "}
+            </p>
+            }
           </div>
         </Col>
       </Row>

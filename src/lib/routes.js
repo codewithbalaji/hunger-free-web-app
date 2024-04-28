@@ -10,11 +10,13 @@ import Profile from 'components/profile';
 import Users from 'components/users';
 import RenderPost from 'components/renderpost/RenderPost';
 import Hero from 'components/Hero/Hero';
+import { Reset } from 'components/auth/Reset';
 
 
 export const ROOT = '/';
 export const LOGIN = '/login';
 export const REGISTER = '/register';
+export const RESET = '/reset';
 
 export const PROTECTED = '/protected';
 export const DASHBOARD = '/protected/dashboard';
@@ -28,6 +30,7 @@ export const router = createBrowserRouter([
   { path: ROOT, element: <Home /> },
   { path: LOGIN, element: <Login /> },
   { path: REGISTER, element: <Register /> },
+  { path: RESET, element: <Reset /> },
   {
     path: PROTECTED,
     element: <Layout />,

@@ -1,4 +1,4 @@
-import Swal from 'sweetalert2';
+import Swal from "sweetalert2";
 import {
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
@@ -38,25 +38,27 @@ export function useLogin() {
   const [isLoading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  async function login({ email, password, redirectTo = HERO,setForgot }) {
+  async function login({ email, password, redirectTo = HERO, setForgot }) {
     setLoading(true);
 
     try {
       await signInWithEmailAndPassword(auth, email, password);
       Swal.fire({
-        icon: 'success',
-        title: 'You are logged in',
+        icon: "success",
+        title: "You are logged in",
         showConfirmButton: false,
-        timer: 2000
+        timer: 2000,
       }).then(() => {
         navigate(redirectTo);
       });
     } catch (error) {
-      setForgot(true)
+      setForgot(true);
       Swal.fire({
-        icon: 'error',
-        title: 'Logging in failed',
+        icon: "error",
+        title: "Logging in failed",
         text: error.message,
+        confirmButtonText: "OK",
+        confirmButtonColor: "#000",
       });
     } finally {
       setLoading(false);
@@ -84,8 +86,8 @@ export function useRegister() {
 
     if (usernameExists) {
       Swal.fire({
-        icon: 'error',
-        title: 'Username already exists',
+        icon: "error",
+        title: "Username already exists",
       });
       setLoading(false);
     } else {
@@ -102,18 +104,18 @@ export function useRegister() {
         });
 
         Swal.fire({
-          icon: 'success',
-          title: 'Account created',
-          text: 'You are logged in',
+          icon: "success",
+          title: "Account created",
+          text: "You are logged in",
           showConfirmButton: false,
-          timer: 2000
+          timer: 2000,
         }).then(() => {
           navigate(redirectTo);
         });
       } catch (error) {
         Swal.fire({
-          icon: 'error',
-          title: 'Signing Up failed',
+          icon: "error",
+          title: "Signing Up failed",
           text: error.message,
         });
       } finally {
@@ -132,17 +134,17 @@ export function useLogout() {
   async function logout() {
     if (await signOut()) {
       Swal.fire({
-        icon: 'success',
-        title: 'Successfully logged out',
+        icon: "success",
+        title: "Successfully logged out",
         showConfirmButton: false,
-        timer: 2000
+        timer: 3000,
       }).then(() => {
         navigate(LOGIN);
       });
     } else {
       Swal.fire({
-        icon: 'error',
-        title: 'Logout failed',
+        icon: "error",
+        title: "Logout failed",
       });
     }
   }

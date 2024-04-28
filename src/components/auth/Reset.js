@@ -1,4 +1,5 @@
 import React from "react";
+import Swal from 'sweetalert2';
 import { sendPasswordResetEmail } from "firebase/auth";
 import { auth } from "lib/firebase";
 import { useNavigate } from "react-router-dom";
@@ -13,8 +14,13 @@ export const Reset = () => {
     const emailVal = e.target.email.value;
     sendPasswordResetEmail(auth, emailVal)
       .then((data) => {
-        alert("Check your email");
-        history("/");
+        Swal.fire({
+          icon: 'success',
+          title: 'Check email for reset link',
+          showConfirmButton: false,
+          timer: 3000
+        })
+        history("/login");
       })
       .catch((err) => {
         setResetError(err.message);

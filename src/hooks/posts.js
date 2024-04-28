@@ -54,6 +54,8 @@ export function useDeletePost(id) {
       showCancelButton: true,
       confirmButtonText: 'Yes, delete it!',
       cancelButtonText: 'Cancel',
+      confirmButtonColor: 'green', // Change confirm button color
+      cancelButtonColor: '#d33',      // Change cancel button color
     });
 
     if (res.isConfirmed) {

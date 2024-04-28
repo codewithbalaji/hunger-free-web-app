@@ -10,7 +10,6 @@ import { useAuth } from 'hooks/auth';
 const HomeButton = () => {
   const { user, isLoading: authLoading } = useAuth();
 if (authLoading) return "Loading...";
-console.log(user.role)
   return (
     <Container className="p-0 pt-4" >
       <div className="d-flex justify-content-between">

@@ -20,8 +20,7 @@ export default function Profile() {
   const closeModal = () => setIsOpen(false);
   const { logout, isLoading: logoutLoading } = useLogout();
 
-  console.log(user)
-
+ 
   useEffect(() => {
     if (userLoading || postsLoading || authLoading || logoutLoading) {
       Swal.fire({

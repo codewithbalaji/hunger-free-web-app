@@ -74,12 +74,10 @@ export default function Profile() {
       </div>
       <hr className="my-4" />
       <div className="team-section">
-        <h1 className="text-center mb-4">Our Team</h1>
-        <h2 className="text-center mb-5">CODE COMMANDOS</h2>
+        <h1 className="text-center mb-5">CODE COMMANDOS</h1>
         <ul className="list-group list-group-flush">
           <li className="list-group-item">Balaji D</li>
           <li className="list-group-item">Deepan B</li>
-          <li className="list-group-item">Yogeshwaran M</li>
         </ul>
       </div>
       <footer className="footer text-center mt-5">

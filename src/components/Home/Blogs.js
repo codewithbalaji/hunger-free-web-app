@@ -1,7 +1,7 @@
 import React from 'react';
-import img1 from "assets/help1.jpg";
-import img2 from "assets/vol.jpg";
-import img3 from "assets/vo.jpg";
+import img1 from "assets/help1.webp";
+import img2 from "assets/vol.webp";
+import img3 from "assets/vo.webp";
 
 const Blogs = () => {
   return (

@@ -15,7 +15,7 @@ import { useLogin } from "hooks/auth";
 import { useForm } from "react-hook-form";
 import { emailValidate, passwordValidate } from "utils/form-validate";
 import { HERO, REGISTER, RESET } from "lib/routes";
-import logo from "assets/logo.png";
+import logo from "assets/logo.webp";
 
 export default function Login() {
   const { login, isLoading } = useLogin();
@@ -68,7 +68,7 @@ export default function Login() {
             </div>
           </div>
           <div className="p-4">
-            <h2 className="mb-4 text-center" style={{ fontSize: "24px", color: "#fff", fontWeight:"600" }}>Log In</h2>
+
 
             {loginError && <Alert variant="danger">{loginError}</Alert>}
 

@@ -5,7 +5,7 @@ import { useRegister } from 'hooks/auth';
 import { useForm } from 'react-hook-form';
 import { emailValidate, passwordValidate, usernameValidate } from 'utils/form-validate';
 import { DASHBOARD, LOGIN } from 'lib/routes';
-import logo from 'assets/logo.png';
+
 
 export default function Register() {
   const { register: signup, isLoading } = useRegister();
@@ -36,14 +36,10 @@ export default function Register() {
     <Container className="d-flex align-items-center justify-content-center" style={{ minHeight: '100vh', fontFamily: "'Montserrat', sans-serif" ,backgroundColor:"#f37a2f"}}>
       <Row className="justify-content-center">
       <div className="home-container" style={{ textAlign: 'center' ,marginBottom:'10px'}}>
-          <div className="logo" style={{ display: 'flex', justifyContent: 'center' }}>
-            <img src={logo} alt="Logo" style={{ width: '200px', height: 'auto' }} />
-          </div>
-          
         </div>
         <Col >
           <div className="p-2">
-            <p className="mb-2 text-center" style={{ fontSize: "24px", fontWeight:"600", color: "#fff" }}>Register Today</p>
+            <p className="mb-2 text-center" style={{ fontSize: "24px", fontWeight:"600", color: "#fff" }}>Register Today !</p>
 
             {registerError && <Alert variant="danger">{registerError}</Alert>}
 

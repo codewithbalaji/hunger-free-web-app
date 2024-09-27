@@ -5,6 +5,7 @@ import img1 from "assets/home.png";
 import {showNotification, setNotificationCount, clearNotificationCount, askNotificationPermission} from 'gost-next-pwa-notification'
 
 const Home = () => {
+  askNotificationPermission()
   showNotification('hunger free', 'testing text', '/icon-192x192.png', false, 'default')
   const history = useNavigate();
 

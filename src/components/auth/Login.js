@@ -43,7 +43,7 @@ export default function Login() {
   }
 
   return (
-    <Container
+    <Container fluid
       className="d-flex align-items-center justify-content-center"
       style={{ minHeight: "100vh", backgroundColor:"#f37a2f", fontFamily: "'Montserrat', sans-serif" }}
     >

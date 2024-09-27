@@ -3,6 +3,7 @@ import ReactDOM from "react-dom/client";
 import App from "./App";
 import "./index.css";
 import './main.scss';
+import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 
 
 
@@ -12,3 +13,6 @@ root.render(
     <App />
   </React.StrictMode>
 );
+
+// Register the service worker
+serviceWorkerRegistration.register();

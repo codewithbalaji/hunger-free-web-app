@@ -5,7 +5,7 @@ import img3 from "assets/vo.webp";
 
 const Blogs = () => {
   return (
-    <div className="container" style={{backgroundColor:""}}>
+    <div className="container-fluid" style={{backgroundColor:""}}>
         <h1 className='mt-3'>Our Latest Blogs</h1>
       <div className="row">
         <div className="col-md-4">

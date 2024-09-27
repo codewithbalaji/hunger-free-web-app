@@ -33,13 +33,13 @@ export default function Register() {
   }
 
   return (
-    <Container className="d-flex align-items-center justify-content-center" style={{ minHeight: '100vh', fontFamily: "'Montserrat', sans-serif" ,backgroundColor:"#f37a2f"}}>
+    <Container fluid className="d-flex align-items-center justify-content-center" style={{ minHeight: '100vh', fontFamily: "'Montserrat', sans-serif" ,backgroundColor:"#f37a2f"}}>
       <Row className="justify-content-center">
       <div className="home-container" style={{ textAlign: 'center' ,marginBottom:'10px'}}>
         </div>
         <Col >
           <div className="p-2">
-            <p className="mb-2 text-center" style={{ fontSize: "24px", fontWeight:"600", color: "#fff" }}>Register Today !</p>
+            <p className="mb-2 text-center" style={{ fontSize: "24px", fontWeight:"600", color: "#fff" }}>💖 Register Today !</p>
 
             {registerError && <Alert variant="danger">{registerError}</Alert>}
 

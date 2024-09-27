@@ -19,8 +19,8 @@ const Home = () => {
   
 
   return (
-    <Container
-      className="d-flex align-items-center justify-content-center"
+    <Container fluid
+      className="d-flex align-items-center justify-content-center max-vh-100"
       style={{ minHeight: "100vh", backgroundColor:"#f37a2f" ,fontFamily: "'Montserrat', sans-serif"}}
     >
       <Row className="justify-content-center">

@@ -43,6 +43,8 @@ export function useAddPost() {
       console.error('Error sending notification:', error);
     }
 
+    // test
+
     // Display success alert using Swal
     await Swal.fire({
       icon: 'success',

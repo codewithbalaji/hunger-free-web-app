@@ -10,8 +10,8 @@ import { useAuth } from "hooks/auth";
 const PUBLIC_KEY =
   "BK8AxptECxHakJHo12njeA9Fpfq5qrv5CIpWW_01Pl2_yaSdATLYWD6wpJw-M4tuUeiKlWoUR0pHg6liA7quC4s";
 
-// const URL = "https://pushbackend-lt3b2m0i.b4a.run";
-const URL = "http://localhost:8080";
+const URL = "https://pushbackend-lt3b2m0i.b4a.run";
+// const URL = "http://localhost:8080";
 
 export const usePushNotification = () => {
   const [loadingSubscribe, setLoadingSubscribe] = useState(false);

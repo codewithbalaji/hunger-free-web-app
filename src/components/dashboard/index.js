@@ -21,15 +21,16 @@ import { TimePicker } from "antd";
 import Swal from "sweetalert2";
 
 function NewPost() {
-  const { register, handleSubmit, reset, watch } = useForm();
+  const { register, handleSubmit, reset, watch, formState: { errors } } = useForm();
   const { addPost, isLoading: addingPost } = useAddPost();
   const { user, isLoading: authLoading } = useAuth();
   const [img, setImg] = useState(null);
   const [url, setUrl] = useState("");
-  const [currentLocation, setCurrentLocation] = useState(""); // State for current location checkbox
-  const [cookedTime, setCookedTime] = useState(""); // State for cooked time
+  const [currentLocation, setCurrentLocation] = useState("");
+  const [cookedTime, setCookedTime] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
-  const foodQuantity = watch("foodQuantity"); // Watch foodQuantity for changes
+  const [isUploading, setIsUploading] = useState(false);
+  const foodQuantity = watch("foodQuantity");
 
   const onClose = () => setIsOpen(false);
   const onOpen = () => setIsOpen(true);
@@ -46,6 +47,7 @@ function NewPost() {
       return;
     }
 
+    setIsUploading(true); // Set uploading state to true
     try {
       const imgRef = ref(storage, `files/${uuidv4()}`);
       await uploadBytes(imgRef, img);
@@ -68,6 +70,8 @@ function NewPost() {
         timer: 5000,
         position: "top",
       });
+    } finally {
+      setIsUploading(false); // Reset uploading state
     }
   };
 
@@ -88,37 +92,14 @@ function NewPost() {
     );
     reset();
     setUrl("");
-    setCookedTime("");
-  }
-
-  // Function to get current location
-  function getLocation() {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(showPosition);
-    } else {
-      Swal.fire({
-        icon: "error",
-        title: "Geolocation is not supported by this browser.",
-        showConfirmButton: false,
-        timer: 5000,
-        position: "top",
-      });
-    }
-  }
-
-  // Function to show current position
-  function showPosition(position) {
-    const latitude = position.coords.latitude;
-    const longitude = position.coords.longitude;
-    const mapsLink = `https://www.google.com/maps/place/${latitude},${longitude}`;
-    setCurrentLocation(mapsLink);
+    setCookedTime(null);
   }
 
   const cookedTimeString = cookedTime ? cookedTime.format("h:mm a") : "";
 
   return (
     <Container className="py-5">
-      <h2 className="text-center mb-4">Donate Food</h2>
+      <h2 className="text-center mt-4 mb-4">Donate Food</h2>
       <Form onSubmit={handleSubmit(handleAddPost)}>
         <FormGroup>
           <TextareaAutosize
@@ -127,6 +108,7 @@ function NewPost() {
             minRows={5}
             {...register("text", { required: true })}
           />
+          {errors.text && <span className="text-danger">This field is required</span>}
         </FormGroup>
         <Button onClick={onOpen} size="sm" className="mb-3">
           Upload Image
@@ -142,8 +124,9 @@ function NewPost() {
             step={1}
             className="form-range"
             id="foodQuantity"
-            {...register("foodQuantity")}
+            {...register("foodQuantity", { required: true })}
           />
+          {errors.foodQuantity && <span className="text-danger">This field is required</span>}
         </FormGroup>
         <FormGroup className="mb-3">
           <label htmlFor="cookedTime" className="form-label me-2">
@@ -165,22 +148,10 @@ function NewPost() {
             id="address"
             placeholder="Enter your address"
             minRows={5}
-            {...register("address")}
+            {...register("address", { required: true })}
           />
+          {errors.address && <span className="text-danger">This field is required</span>}
         </FormGroup>
-        {/* <FormGroup className="mb-3">
-          <div className="">
-            <button
-              className="btn btn-primary"
-              onClick={(e) => {
-                e.preventDefault();
-                getLocation(); // Call getLocation when the button is clicked
-              }}
-            >
-              Get Current Location
-            </button>
-          </div>
-        </FormGroup> */}
         <Modal show={isOpen} onHide={onClose}>
           <ModalHeader closeButton className="text-center">
             Choose Image
@@ -192,7 +163,7 @@ function NewPost() {
                 accept="image/*"
                 onChange={(e) => setImg(e.target.files[0])}
                 id="image-upload"
-                style={{ display: "none" }} // Hide the file input visually
+                style={{ display: "none" }}
               />
               <label htmlFor="image-upload">
                 <Button
@@ -226,14 +197,14 @@ function NewPost() {
           </ModalFooter>
         </Modal>
         <div className="d-grid gap-2 mt-4">
-        <Button
-          variant="primary"
-          type="submit"
-          size="lg"
-          disabled={authLoading || addingPost}
-        >
-          {authLoading || addingPost ? "Loading" : "Post"}
-        </Button>
+          <Button
+            variant="primary"
+            type="submit"
+            size="lg"
+            disabled={authLoading || addingPost || !url || !watch("text") || !watch("foodQuantity") || !cookedTime || !watch("address") || isUploading}
+          >
+            {isUploading ? "Uploading Image..." : (authLoading || addingPost ? "Loading" : "Post")}
+          </Button>
         </div>
       </Form>
     </Container>

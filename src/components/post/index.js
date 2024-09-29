@@ -8,9 +8,9 @@ export default function Post({ post }) {
   const { text, image, foodQuantity, cookedTime, address } = post;
 
   return (
-    <Container className="p-2">
+    <Container className="p-2 py-3 ">
       <Card
-        className="border border-2 border-gray rounded-md"
+        className="border border-2 border-gray rounded-md "
         style={{ maxWidth: "600px" }}
       >
         <Header post={post} />
@@ -19,7 +19,7 @@ export default function Post({ post }) {
           {/* Rendering text content if available */}
           {text && (
             <p className="mb-3" style={{ fontFamily: "poppins", fontWeight: "400" }}>
-              <span style={{ fontFamily: "poppins", fontWeight: "500" }}>
+              <span style={{ fontFamily: "poppins", fontWeight: "600" }}>
                 Food Description:
                 <br />
               </span>
@@ -68,9 +68,10 @@ export default function Post({ post }) {
           </div>
         </Card.Body>
 
-        <Card.Footer>
+        <Card.Footer >
           <Actions post={post} />
-        </Card.Footer>
+        </Card.Footer >
+
       </Card>
     </Container>
   );

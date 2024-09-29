@@ -4,6 +4,7 @@ import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "hooks/auth";
 import Navbar from "components/layout/Navbar";
 import Swal from "sweetalert2";
+import Header from "./Header";
 
 
 
@@ -36,9 +37,10 @@ export default function Layout() {
 
   return (
     <>
-      <Navbar />
-      <div style={{paddingTop:"45px"}}>
+     <Header/>
+      <div >
       <Outlet />
+      <Navbar />
       </div>
     </>
   );

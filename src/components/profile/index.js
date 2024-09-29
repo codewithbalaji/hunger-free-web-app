@@ -20,7 +20,6 @@ export default function Profile() {
   const closeModal = () => setIsOpen(false);
   const { logout, isLoading: logoutLoading } = useLogout();
 
- 
   useEffect(() => {
     if (userLoading || postsLoading || authLoading || logoutLoading) {
       Swal.fire({
@@ -40,34 +39,39 @@ export default function Profile() {
   if (userLoading) return "";
 
   return (
-    <div className="container my-5">
-      <div className="row align-items-center">
-        <div className="col-auto">
+    <div className="container pt-5">
+      <div className="row align-items-center pt-4">
+        <div className="col-auto me-4">
           <Avatar size="xl" user={user} />
         </div>
         <div className="col">
           <h2>{user.username}</h2>
           <div className="mb-3">
-          {user.role === "contributor" && (
-            <p>Posts: {posts.length}</p>
-          )}
+            {user.role === "contributor" && <p>Posts: {posts.length}</p>}
             <p>Role: {user.role}</p>
             <p>Joined: {format(user.date, "MMMM yyy")}</p>
           </div>
         </div>
         {!authLoading && authUser.id === user.id && (
-          <div className="col-auto">
-            <Button
-              variant="primary"
-              onClick={openModal}
-              size="sm"
-              className="me-2"
-            >
-              Change avatar
-            </Button>
-            <Button variant="danger" onClick={logout} size="sm">
-              Logout
-            </Button>
+          <div >
+            <div className="col d-flex justify-content-between">
+              <Button
+                variant="primary"
+                onClick={openModal}
+                size="sm"
+                className="flex-grow-1 me-2"
+              >
+                Change avatar
+              </Button>
+              <Button
+                variant="danger"
+                onClick={logout}
+                size="sm"
+                className="flex-grow-1"
+              >
+                Logout
+              </Button>
+            </div>
           </div>
         )}
         <EditProfile isOpen={isOpen} onClose={closeModal} />

@@ -19,7 +19,7 @@ export default function Actions({ post }) {
  
 
   return (
-    <div className="p-2 d-flex align-items-center justify-content-between">
+    <div className="p-2 d-flex align-items-center justify-content-between bg-light ">
       {isVolunteer &&
         !request && ( // Only render if user is volunteer and request is false
           <>

@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { useRegister } from 'hooks/auth';
 import { useForm } from 'react-hook-form';
 import { emailValidate, passwordValidate, usernameValidate } from 'utils/form-validate';
-import { DASHBOARD, LOGIN } from 'lib/routes';
+import { HERO, LOGIN } from 'lib/routes';
 
 
 export default function Register() {
@@ -25,7 +25,7 @@ export default function Register() {
         password: data.password,
         role: data.role,
         phoneNumber: data.phoneNumber, 
-        redirectTo: DASHBOARD
+        redirectTo: HERO
       });
     } catch (error) {
       setRegisterError(error.message);

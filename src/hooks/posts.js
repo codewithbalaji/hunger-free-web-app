@@ -38,10 +38,18 @@ export function useAddPost() {
 
       // Send notification to all users
       try {
-        const response = await axios.post('https://pushbackend-lt3b2m0i.b4a.run/sendAll', {
-          title: 'New Post!',
-          message: `${post.text} near ${post.address}.`,
-        });
+        const response = await axios.post(
+          'https://pushbackend-lt3b2m0i.b4a.run/sendAll',
+          {
+            title: 'New Post!',
+            message: `${post.text} near ${post.address}.`,
+          },
+          {
+            headers: {
+              'Content-Type': 'application/json', // Set content type for JSON
+            },
+          }
+        );
         console.log('Notification sent successfully:', response.data);
       } catch (error) {
         console.error('Error sending notification:', error); // Log any errors in notification sending

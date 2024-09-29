@@ -3,13 +3,15 @@ import axios from "axios";
 import FingerprintJS from "@fingerprintjs/fingerprintjs";
 import { useSubscribe } from "react-pwa-push-notifications";
 import toast from "react-hot-toast";
+import { useAuth } from "hooks/auth";
+
 
 // in PROD use from .env
 const PUBLIC_KEY =
   "BK8AxptECxHakJHo12njeA9Fpfq5qrv5CIpWW_01Pl2_yaSdATLYWD6wpJw-M4tuUeiKlWoUR0pHg6liA7quC4s";
 
-const URL = "https://pushbackend-lt3b2m0i.b4a.run";
-// const URL = "http://localhost:8080";
+// const URL = "https://pushbackend-lt3b2m0i.b4a.run";
+const URL = "http://localhost:8080";
 
 export const usePushNotification = () => {
   const [loadingSubscribe, setLoadingSubscribe] = useState(false);
@@ -17,6 +19,7 @@ export const usePushNotification = () => {
   const [pushId, setPushId] = useState("");
   const [subscribeId, setSubscribeId] = useState("");
   const { getSubscription } = useSubscribe({ publicKey: PUBLIC_KEY });
+  const { user, isLoading: userLoading } = useAuth();
 
   useEffect(() => {
     FingerprintJS.load()
@@ -35,6 +38,7 @@ export const usePushNotification = () => {
         await axios.post(URL + "/subscribe", {
           subscription,
           id,
+          user: user.id,
         });
         toast.success("Subscribe success");
       } catch (error) {

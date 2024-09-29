@@ -3,6 +3,7 @@ import {
   collection,
   deleteDoc,
   doc,
+  getDoc,
   orderBy,
   query,
   setDoc,
@@ -116,26 +117,56 @@ export function useDeletePost(id) {
 
 export function useAcceptRequest(id) {
   const [isLoading, setLoading] = useState(false);
-  const { user, isLoading: userLoading } = useAuth();
+  const { user } = useAuth(); // Assuming this gives you the current user
 
   async function acceptRequest() {
     setLoading(true);
 
-    // Update post document to mark as accepted
-    await updateDoc(doc(db, "posts", id), {
-      request: true,
-      acceptby: user.username
-    });
+    try {
+      // Get the post document to retrieve the user ID
+      const postDoc = await getDoc(doc(db, "posts", id));
+      if (!postDoc.exists()) {
+        throw new Error("Post not found");
+      }
+      const postData = postDoc.data();
+      const requesterUserId = postData.uid; // Assuming 'uid' field holds the user ID of the requester
 
-    // Display success alert using Swal
-    await Swal.fire({
-      icon: 'success',
-      title: 'Request accepted successfully!',
-      showConfirmButton: false,
-      timer: 2000
-    });
+      // Update post document to mark as accepted
+      await updateDoc(doc(db, "posts", id), {
+        request: true,
+        acceptby: user.username,
+      });
 
-    setLoading(false);
+      // Send notification to the user who requested
+      const notificationResponse = await axios.post(
+        'https://pushbackend-lt3b2m0i.b4a.run/sendToUser', // Replace with your backend endpoint
+        {
+          userId: requesterUserId, // The ID of the user to notify
+          title: 'Request Accepted',
+          message: `Your request has been accepted by ${user.username}.`
+        }
+      );
+
+      console.log('Notification sent successfully:', notificationResponse.data);
+
+      // Display success alert using Swal
+      await Swal.fire({
+        icon: 'success',
+        title: 'Request accepted successfully!',
+        showConfirmButton: false,
+        timer: 2000
+      });
+
+    } catch (error) {
+      console.error('Error accepting request:', error);
+      await Swal.fire({
+        icon: 'error',
+        title: 'Error accepting request',
+        text: error.message,
+      });
+    } finally {
+      setLoading(false);
+    }
   }
 
   return { acceptRequest, isLoading };

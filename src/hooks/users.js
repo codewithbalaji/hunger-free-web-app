@@ -9,6 +9,7 @@ import {
 } from "react-firebase-hooks/firestore";
 import { useNavigate } from "react-router-dom";
 
+
 export function useUser(id) {
   const q = query(doc(db, "users", id));
   const [user, isLoading] = useDocumentData(q);

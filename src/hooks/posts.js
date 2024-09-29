@@ -10,7 +10,7 @@ import {
   where,
 } from "firebase/firestore";
 import { db } from "lib/firebase";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import {
   useCollectionData,
   useDocumentData,
@@ -21,14 +21,13 @@ import axios from 'axios';
 export function useAddPost() {
   const [isLoading, setLoading] = useState(false);
 
-  async function addPost(post, url) {
+  // Use useCallback to memoize the function
+  const addPost = useCallback(async (post, url) => {
     try {
       setLoading(true);
       
-      // Generate a new document ID for the post
       const id = doc(collection(db, "posts")).id;
 
-      // Save the new post to Firestore
       await setDoc(doc(db, "posts", id), {
         ...post,
         id,
@@ -46,13 +45,13 @@ export function useAddPost() {
           },
           {
             headers: {
-              'Content-Type': 'application/json', // Set content type for JSON
+              'Content-Type': 'application/json',
             },
           }
         );
         console.log('Notification sent successfully:', response.data);
       } catch (error) {
-        console.error('Error sending notification:', error); // Log any errors in notification sending
+        console.error('Error sending notification:', error);
       }
 
       // Show success alert using Swal
@@ -62,18 +61,18 @@ export function useAddPost() {
         showConfirmButton: false,
         timer: 2000
       });
-      
+
     } catch (error) {
-      console.error('Error adding post:', error); // Log any Firestore errors
+      console.error('Error adding post:', error);
       await Swal.fire({
         icon: 'error',
         title: 'Error adding post',
         text: error.message,
       });
     } finally {
-      setLoading(false); // Ensure loading state is turned off
+      setLoading(false);
     }
-  }
+  }, []);
 
   return { addPost, isLoading };
 }

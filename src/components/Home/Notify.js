@@ -1,8 +1,6 @@
 import { useState } from "react";
 import { Toaster } from "react-hot-toast";
-import Tabs from "../../hooks/Tab";
 import SubscribeForm from "../../hooks/SubscribeForm";
-
 import { usePushNotification } from "../../hooks/usePushNotification";
 
 const Notify = () => {

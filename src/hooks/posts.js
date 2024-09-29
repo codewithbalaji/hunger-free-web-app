@@ -16,6 +16,7 @@ import {
   useDocumentData,
 } from "react-firebase-hooks/firestore";
 import { useAuth } from './auth';
+import axios from 'axios';
 
 export function useAddPost() {
   const [isLoading, setLoading] = useState(false);
@@ -23,12 +24,24 @@ export function useAddPost() {
   async function addPost(post, url) {
     setLoading(true);
     const id = doc(collection(db, "posts")).id;
+    
+    // Save the new post to Firestore
     await setDoc(doc(db, "posts", id), {
       ...post,
       id,
       date: Date.now(),
       image: url,
     });
+
+    // Send notification using your backend API
+    try {
+      await axios.post('https://pushbackend-lt3b2m0i.b4a.run/sendAll', {
+        title: 'New Post!',
+        message: `${post.text} near ${post.address}.`,
+      });
+    } catch (error) {
+      console.error('Error sending notification:', error);
+    }
 
     // Display success alert using Swal
     await Swal.fire({

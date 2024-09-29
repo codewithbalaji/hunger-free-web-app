@@ -22,38 +22,49 @@ export function useAddPost() {
   const [isLoading, setLoading] = useState(false);
 
   async function addPost(post, url) {
-    setLoading(true);
-    const id = doc(collection(db, "posts")).id;
-    
-    // Save the new post to Firestore
-    await setDoc(doc(db, "posts", id), {
-      ...post,
-      id,
-      date: Date.now(),
-      image: url,
-    });
-
-    // Send notification using your backend API
     try {
-      await axios.post('https://pushbackend-lt3b2m0i.b4a.run/sendAll', {
-        title: 'New Post!',
-        message: `${post.text} near ${post.address}.`,
+      setLoading(true);
+      
+      // Generate a new document ID for the post
+      const id = doc(collection(db, "posts")).id;
+
+      // Save the new post to Firestore
+      await setDoc(doc(db, "posts", id), {
+        ...post,
+        id,
+        date: Date.now(),
+        image: url,
       });
+
+      // Send notification to all users
+      try {
+        const response = await axios.post('https://pushbackend-lt3b2m0i.b4a.run/sendAll', {
+          title: 'New Post!',
+          message: `${post.text} near ${post.address}.`,
+        });
+        console.log('Notification sent successfully:', response.data);
+      } catch (error) {
+        console.error('Error sending notification:', error); // Log any errors in notification sending
+      }
+
+      // Show success alert using Swal
+      await Swal.fire({
+        icon: 'success',
+        title: 'Post added successfully!',
+        showConfirmButton: false,
+        timer: 2000
+      });
+      
     } catch (error) {
-      console.error('Error sending notification:', error);
+      console.error('Error adding post:', error); // Log any Firestore errors
+      await Swal.fire({
+        icon: 'error',
+        title: 'Error adding post',
+        text: error.message,
+      });
+    } finally {
+      setLoading(false); // Ensure loading state is turned off
     }
-
-    // test
-
-    // Display success alert using Swal
-    await Swal.fire({
-      icon: 'success',
-      title: 'Post added successfully!',
-      showConfirmButton: false,
-      timer: 2000
-    });
-
-    setLoading(false);
   }
 
   return { addPost, isLoading };

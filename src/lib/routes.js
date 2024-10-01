@@ -22,7 +22,7 @@ export const PROTECTED = '/protected';
 export const DASHBOARD = '/protected/dashboard';
 export const USERS = '/protected/users';
 export const PROFILE = '/protected/profile/:id';
-export const RENDER_POST = '/protected/posts'; // Changed variable name to match the import
+export const RENDER_POST = '/protected/posts'; 
 export const HERO = '/protected/hero'; 
 
 
@@ -48,12 +48,12 @@ export const router = createBrowserRouter([
         element: <Profile />,
       },
       {
-        path: RENDER_POST, // Using the variable for the path
-        element: <RenderPost />, // Using the RenderPost component
+        path: RENDER_POST, 
+        element: <RenderPost />, 
       },
       {
-        path: HERO, // Using the variable for the path
-        element: <Hero />, // Using the RenderPost component
+        path: HERO, 
+        element: <Hero />, 
       },
 
     ],

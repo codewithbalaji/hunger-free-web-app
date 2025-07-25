@@ -5,6 +5,7 @@ import Navbar from 'react-bootstrap/Navbar';
 function Header() {
     const { user, isLoading: authLoading } = useAuth();
     if (authLoading) return "Loading...";
+    if (!user) return null;
   return (
     <Navbar className="position-fixed d-flex justify-content-between align-items-center bg-primary text-white p-2 w-100  z-1 " >
       <Container>

@@ -12,6 +12,7 @@ const Navbar = () => {
 
   const { user, isLoading: authLoading } = useAuth();
   if (authLoading) return "Loading...";
+  if (!user) return null;
 
   const handleLinkClick = (link) => {
     setActiveLink(link);

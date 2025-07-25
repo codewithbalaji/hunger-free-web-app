@@ -14,9 +14,7 @@ import { useAuth } from "hooks/auth";
 import { useAddPost } from "hooks/posts";
 import { useForm } from "react-hook-form";
 import TextareaAutosize from "react-textarea-autosize";
-import { storage } from "lib/firebase";
-import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
-import { v4 as uuidv4 } from "uuid";
+import { uploadImageToCloudinary } from "lib/cloudinary";
 import { TimePicker } from "antd";
 import Swal from "sweetalert2";
 
@@ -47,11 +45,9 @@ function NewPost() {
       return;
     }
 
-    setIsUploading(true); // Set uploading state to true
+    setIsUploading(true);
     try {
-      const imgRef = ref(storage, `files/${uuidv4()}`);
-      await uploadBytes(imgRef, img);
-      const imgURL = await getDownloadURL(imgRef);
+      const imgURL = await uploadImageToCloudinary(img);
       setUrl(imgURL);
       Swal.fire({
         icon: "success",
@@ -71,7 +67,7 @@ function NewPost() {
         position: "top",
       });
     } finally {
-      setIsUploading(false); // Reset uploading state
+      setIsUploading(false);
     }
   };
 
